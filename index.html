@@ -275,8 +275,9 @@ a {
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 1);
   padding: 60px;
+  padding-top: 40px;
   z-index: 100;
   opacity: 0;
   visibility: hidden;
@@ -288,6 +289,23 @@ a {
   visibility: visible;
   transition: opacity 200ms ease, visibility 0s 0s;
   pointer-events: auto;
+}
+.nav-preview-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.4;
+  font-family: 'Code Saver', monospace;
+  display: none;
+  z-index: 101;
+}
+.nav-preview-close:hover {
+  opacity: 1;
+}
+.nav-preview.locked .nav-preview-close {
+  display: block;
 }
 .nav-preview p,
 .nav-preview a {
@@ -620,6 +638,7 @@ a {
 
   <!-- ABOUT preview -->
   <div class="nav-preview" id="preview-about">
+    <span class="nav-preview-close">&times;</span>
     <p>Titou Granier is a 25-year-old cultural event producer, curator, and art project manager based in Paris, specializing in contemporary art, luxury activations, and international productions.</p>
     <p style="margin-top: 16px;">He started organizing exhibitions during his studies at ICART Paris, earning a degree in Cultural Mediation and Art Market Studies in 2022. That same year, he was offered the opportunity to create the NFT Factory, a 400-square-meter digital art gallery facing Centre Pompidou. After a year and a half as Art Manager, he became Director and led the space, curating weekly exhibitions with international artists, producing events for LVMH, Balmain, KPMG, Renault, Binance, and more, welcoming up to 5,000 visitors daily. He managed a team of five, oversaw relationships with 128 founders, and developed training programs on secure NFT acquisitions.</p>
     <p style="margin-top: 16px;">Since 2024, Titou has worked as a freelance event manager and art curator across Europe and the United States. He coordinated exhibitions for Institut Montaigne at the Mus&eacute;e des Arts et M&eacute;tiers, organized nine exhibitions in Lisbon for Arab Bank Switzerland, and produced private events for Artverse, managing international art shipping logistics to the US and Asia. He has worked on Fashion Week activations, corporate events, and pop-up exhibitions in Paris, Geneva, Brussels, New York, and Lisbon.</p>
@@ -629,22 +648,26 @@ a {
 
   <!-- CONTACT preview -->
   <div class="nav-preview preview-contact" id="preview-contact">
+    <span class="nav-preview-close">&times;</span>
     <a href="tel:+33620370036">+33 6 20 37 00 36</a>
     <a href="mailto:graniertitou@gmail.com">graniertitou@gmail.com</a>
   </div>
 
   <!-- CURRICULUM VITAE preview -->
   <div class="nav-preview preview-cv" id="preview-cv">
+    <span class="nav-preview-close">&times;</span>
     <img src="images/cv-preview.png" alt="CV Titou Granier" style="max-width: 100%; max-height: 70vh; display: block; margin: 0 auto;">
   </div>
 
   <!-- CLIENTS preview -->
   <div class="nav-preview" id="preview-clients">
+    <span class="nav-preview-close">&times;</span>
     <p>Client list coming soon.</p>
   </div>
 
   <!-- MEDIA preview (short list, same links as full Media page) -->
   <div class="nav-preview preview-media" id="preview-media">
+    <span class="nav-preview-close">&times;</span>
     <a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">— Le Monde — NFT Factory</a>
     <a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">— Les Numériques — NFT Factory Opening</a>
     <a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">— 1703 Art — French Galleries &amp; NFT</a>
@@ -910,7 +933,10 @@ a {
           lockedNav = navId;
           navHovered = true;
           overlay.classList.remove('visible');
-          if (previewEl) previewEl.classList.add('visible');
+          if (previewEl) {
+            previewEl.classList.add('visible');
+            previewEl.classList.add('locked');
+          }
         }
       });
     })(navItems[j]);
@@ -920,10 +946,22 @@ a {
   function closeLockedPreview() {
     if (lockedNav) {
       var el = document.getElementById('preview-' + lockedNav);
-      if (el) el.classList.remove('visible');
+      if (el) {
+        el.classList.remove('visible');
+        el.classList.remove('locked');
+      }
       lockedNav = null;
       navHovered = false;
     }
+  }
+
+  /* Close buttons on preview panels */
+  var closeBtns = document.querySelectorAll('.nav-preview-close');
+  for (var k = 0; k < closeBtns.length; k++) {
+    closeBtns[k].addEventListener('click', function(e) {
+      e.stopPropagation();
+      closeLockedPreview();
+    });
   }
 
 /* ==========================================================
