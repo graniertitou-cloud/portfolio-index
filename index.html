@@ -364,35 +364,63 @@ a {
    MOBILE — screens under 768px
    ============================================================ */
 @media (max-width: 768px) {
+  /* Allow scrolling on mobile */
+  html, body {
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
   /* Page 1 mobile */
   .landing-content {
     padding: 0 24px;
   }
   .landing-name {
-    font-size: 24px;
+    font-size: 28px;
   }
   .landing-title {
     font-size: 11px;
   }
+  .landing-contact {
+    margin-top: 24px;
+  }
   .landing-contact a {
     font-size: 12px;
+  }
+  .landing-hint {
+    bottom: 24px;
+  }
+  /* Hide portrait on mobile (no hover) */
+  .landing-portrait {
+    display: none !important;
   }
 
   /* Page 2 mobile: single column */
   .work-layout {
     flex-direction: column;
   }
+  .back-link {
+    top: 20px;
+    left: 20px;
+  }
   .work-left {
     width: 100%;
-    padding: 90px 24px 24px 24px;
+    padding: 60px 20px 24px 20px;
   }
   .work-right {
     width: 100%;
     align-items: flex-start;
-    padding: 24px 24px 60px 24px;
+    padding: 24px 20px 60px 20px;
   }
   .nav-list {
     text-align: left;
+  }
+  .nav-list li {
+    font-size: 13px;
+    line-height: 3;
+  }
+  .project-list li {
+    font-size: 12px;
+    line-height: 2.2;
   }
 
   /* Project images inline on mobile */
@@ -409,7 +437,12 @@ a {
   }
   .mobile-project-image img {
     width: 100%;
+    height: auto;
     object-fit: contain;
+  }
+  .mobile-project-image video {
+    width: 100%;
+    height: auto;
   }
 
   /* Nav preview inline on mobile */
@@ -418,16 +451,67 @@ a {
     transform: none;
     max-width: 100%;
     width: 100%;
-    padding: 24px 0;
+    padding: 16px 0;
     background: transparent;
     opacity: 1;
     visibility: hidden;
     pointer-events: none;
     transition: none;
+    max-height: none;
   }
   .nav-preview.mobile-visible {
     visibility: visible;
     pointer-events: auto;
+  }
+  .nav-preview p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .preview-cv img {
+    max-height: none;
+    width: 100%;
+  }
+  .preview-contact a {
+    font-size: 13px;
+  }
+  .preview-media a {
+    font-size: 12px;
+  }
+
+  /* Page 3 — Media mobile */
+  .media-back {
+    top: 20px;
+    left: 20px;
+  }
+  .media-title {
+    font-size: 24px;
+    padding: 60px 20px 24px 20px;
+  }
+  .media-links {
+    padding: 0 20px 60px 20px;
+  }
+  .media-links li {
+    font-size: 12px;
+    line-height: 2.6;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE — screens under 400px
+   ============================================================ */
+@media (max-width: 400px) {
+  .landing-name {
+    font-size: 22px;
+  }
+  .landing-title {
+    font-size: 10px;
+  }
+  .project-list li {
+    font-size: 11px;
+    line-height: 2;
+  }
+  .nav-list li {
+    font-size: 12px;
   }
 }
 
