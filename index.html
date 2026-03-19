@@ -514,7 +514,7 @@ a {
       <ul class="nav-list" id="nav-list">
         <li data-nav="about">About</li>
         <li data-nav="contact">Contact</li>
-        <li data-nav="cv">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5;" onclick="event.stopPropagation()">Download — PDF</a></li>
+        <li data-nav="cv">Curriculum Vitae<br style="line-height: 0.6;"><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5;" onclick="event.stopPropagation()">Download — PDF</a></li>
         <li data-nav="media" data-nav-link="page-media">Media</li>
         <li data-nav="clients">Clients</li>
       </ul>
@@ -849,8 +849,10 @@ a {
   if (nameEl && portraitEl) {
     function positionPortrait() {
       var rect = nameEl.getBoundingClientRect();
-      portraitEl.style.left = (rect.left + rect.width / 2 - portraitEl.naturalWidth / 2) + 'px';
-      portraitEl.style.top = (rect.top - Math.min(portraitEl.naturalHeight, 200) - 16) + 'px';
+      var imgW = Math.min(portraitEl.naturalWidth, 200) || 200;
+      var imgH = Math.min(portraitEl.naturalHeight, 200) || 200;
+      portraitEl.style.left = (rect.left + rect.width / 2 - imgW / 2) + 'px';
+      portraitEl.style.top = (rect.top - imgH - 16) + 'px';
     }
     nameEl.addEventListener('mouseenter', function() {
       positionPortrait();
