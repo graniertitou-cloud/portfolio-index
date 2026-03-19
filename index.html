@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titou Granier — Cultural Project Manager</title>
+
+<style>
+/* ============================================================
+   FONT FACE
+   Place CodeSaver.woff2 in ./fonts/ folder.
+   Fallback: monospace
+   ============================================================ */
+@font-face {
+  font-family: 'Code Saver';
+  src: url('./fonts/CodeSaver.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Code Saver';
+  src: url('./fonts/CodeSaver-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Code Saver', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================================
+   PAGE SYSTEM
+   All pages live in the DOM. Only .active is visible.
+   Transitions handled via opacity.
+   ============================================================ */
+.page {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms ease, visibility 0s 400ms;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.page.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms ease, visibility 0s 0s;
+  z-index: 1;
+}
+
+/* ============================================================
+   PAGE 1 — LANDING (white)
+   ============================================================ */
+#page-landing {
+  background: #FFFFFF;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+.landing-content {
+  text-align: center;
+}
+.landing-name {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.1;
+  cursor: default;
+}
+/* Portrait photo on name hover */
+.landing-portrait {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 60vh;
+  max-width: 40vw;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 0s 200ms;
+  pointer-events: none;
+}
+.landing-portrait.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease, visibility 0s 0s;
+}
+.landing-title {
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.landing-contact {
+  margin-top: 32px;
+}
+.landing-contact a {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  line-height: 1.8;
+}
+.landing-contact a:hover {
+  text-decoration: underline;
+}
+
+/* Pulsing "Work" hint at bottom */
+.landing-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ============================================================
+   PAGE 2 — WORK (dark)
+   ============================================================ */
+#page-work {
+  background: #FFFFFF;
+  color: #000000;
+}
+.work-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Back link (top left) */
+.back-link {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #000000;
+  z-index: 10;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Left column — project list */
+.work-left {
+  width: 50%;
+  padding: 90px 32px 60px 32px;
+}
+.section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.4;
+  margin-bottom: 8px;
+}
+.project-list {
+  list-style: none;
+}
+.project-list li {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 2.4;
+  cursor: default;
+  position: relative;
+}
+.project-list li:hover {
+  opacity: 0.6;
+}
+
+/* Right column — navigation (top-right) */
+.work-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 90px 48px 60px 32px;
+}
+.nav-list {
+  list-style: none;
+  text-align: right;
+}
+.nav-list li {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  line-height: 3.5;
+  cursor: pointer;
+}
+.nav-list li:hover {
+  opacity: 0.6;
+}
+
+/* ============================================================
+   PROJECT IMAGE OVERLAY (fixed center)
+   ============================================================ */
+.project-image-overlay {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 45vw;
+  max-height: 70vh;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 0s 200ms;
+  pointer-events: none;
+}
+.project-image-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease, visibility 0s 0s;
+}
+.project-image-overlay img,
+.project-image-overlay video,
+.project-image-overlay .placeholder-img {
+  max-width: 45vw;
+  max-height: 70vh;
+  display: block;
+}
+/* Placeholder styling */
+.placeholder-img {
+  background: #E0E0E0;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Code Saver', monospace;
+  font-size: 14px;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   NAVIGATION PREVIEW PANEL (fixed center)
+   ============================================================ */
+.nav-preview {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 60px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 0s 200ms;
+  pointer-events: none;
+}
+.nav-preview.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease, visibility 0s 0s;
+  pointer-events: auto;
+}
+.nav-preview p,
+.nav-preview a {
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.9;
+}
+.nav-preview a:hover {
+  text-decoration: underline;
+}
+
+/* Contact preview: more spacing */
+.preview-contact a {
+  display: block;
+  line-height: 3;
+}
+
+/* CV preview */
+.preview-cv {
+  max-width: 600px;
+  padding: 24px;
+}
+
+/* Media preview */
+.preview-media a {
+  display: block;
+  line-height: 2.6;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   PAGE 3 — MEDIA (dark)
+   ============================================================ */
+#page-media {
+  background: #FFFFFF;
+  color: #000000;
+}
+.media-back {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #000000;
+  z-index: 10;
+}
+.media-back:hover {
+  text-decoration: underline;
+}
+.media-title {
+  font-weight: 700;
+  font-size: 32px;
+  padding: 80px 32px 40px 32px;
+}
+.media-links {
+  list-style: none;
+  padding: 0 32px 60px 32px;
+}
+.media-links li {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 3;
+}
+.media-links li a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   MOBILE — screens under 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Page 1 mobile */
+  .landing-content {
+    padding: 0 24px;
+  }
+  .landing-name {
+    font-size: 24px;
+  }
+  .landing-title {
+    font-size: 11px;
+  }
+  .landing-contact a {
+    font-size: 12px;
+  }
+
+  /* Page 2 mobile: single column */
+  .work-layout {
+    flex-direction: column;
+  }
+  .work-left {
+    width: 100%;
+    padding: 90px 24px 24px 24px;
+  }
+  .work-right {
+    width: 100%;
+    align-items: flex-start;
+    padding: 24px 24px 60px 24px;
+  }
+  .nav-list {
+    text-align: left;
+  }
+
+  /* Project images inline on mobile */
+  .project-image-overlay {
+    display: none !important;
+  }
+  .mobile-project-image {
+    display: block;
+    width: 100%;
+    margin: 8px 0 16px 0;
+  }
+  .mobile-project-image .placeholder-img {
+    width: 100%;
+  }
+  .mobile-project-image img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  /* Nav preview inline on mobile */
+  .nav-preview {
+    position: static;
+    transform: none;
+    max-width: 100%;
+    width: 100%;
+    padding: 24px 0;
+    background: transparent;
+    opacity: 1;
+    visibility: hidden;
+    pointer-events: none;
+    transition: none;
+  }
+  .nav-preview.mobile-visible {
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/* Hide mobile-only elements on desktop */
+@media (min-width: 769px) {
+  .mobile-project-image {
+    display: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1 — LANDING
+     Click anywhere to go to Page 2.
+     ============================================================ -->
+<div id="page-landing" class="page active" onclick="goToPage('page-work')">
+  <div class="landing-content">
+    <div class="landing-name" id="landing-name">Titou Granier</div>
+    <div class="landing-title">Event & Cultural Project Manager</div>
+    <div class="landing-contact">
+      <!-- Phone link -->
+      <a href="tel:+33620370036" onclick="event.stopPropagation()">+33 6 20 37 00 36</a>
+      <!-- Email link -->
+      <a href="mailto:graniertitou@gmail.com" onclick="event.stopPropagation()">graniertitou@gmail.com</a>
+    </div>
+  </div>
+  <div class="landing-hint">Work</div>
+  <!-- Portrait photo shown on name hover -->
+  <img src="images/titou-portrait.jpg" alt="Titou Granier" class="landing-portrait" id="landing-portrait">
+</div>
+
+<!-- ============================================================
+     PAGE 2 — WORK (Main Portfolio Hub)
+     ============================================================ -->
+<div id="page-work" class="page">
+  <!-- Back to landing -->
+  <a href="#" class="back-link" onclick="event.preventDefault(); goToPage('page-landing')">← Index</a>
+
+  <div class="work-layout">
+
+    <!-- LEFT COLUMN — Project List -->
+    <div class="work-left">
+      <!-- ====================================================
+           PROJECTS
+           To change a project name: edit the data-project and
+           the text inside the <li>.
+           To add an image: replace the placeholder div inside
+           the corresponding template below with an <img> tag.
+           ==================================================== -->
+
+      <!-- PROFESSIONAL PROJECTS -->
+      <div class="section-label">Professional Projects</div>
+      <ul class="project-list" id="project-list">
+        <li data-project="paris-photo" data-images="images/paris-photo/DSC02669.jpg,images/paris-photo/DSC02743.jpg,images/paris-photo/DSC02747.jpg,images/paris-photo/DSC02803.jpg">Paris Photo</li>
+        <li data-project="brussels-digital-af" data-images="images/brussels-digital-af/01.jpg,images/brussels-digital-af/02.jpg,images/brussels-digital-af/03.jpg,images/brussels-digital-af/04.jpg,images/brussels-digital-af/05.jpg">Brussels / Digital AF!</li>
+        <li data-project="collection-nft-photographie-book" data-images="images/collection-nft-photographie-book/01.jpg,images/collection-nft-photographie-book/02.jpg,images/collection-nft-photographie-book/03.jpg,images/collection-nft-photographie-book/04.jpg,images/collection-nft-photographie-book/05.jpg">A Collection of NFT Photographie / Book</li>
+        <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Musée des Arts et Métiers Exhibition</li>
+        <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Exposition Musée Jacquemart-André</li>
+        <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">Sommet pour l'Action sur l'IA / Exhibition</li>
+        <li data-project="la-hune-exhibition" data-images="images/la-hune-exhibition/01.jpg,images/la-hune-exhibition/02.jpg,images/la-hune-exhibition/03.jpg,images/la-hune-exhibition/04.jpg">La Hune Exhibition</li>
+        <li data-project="abs-exhibition-lisbonne" data-images="images/abs-exhibition-lisbonne/01.png,images/abs-exhibition-lisbonne/02.png,images/abs-exhibition-lisbonne/03.png,images/abs-exhibition-lisbonne/04.png,images/abs-exhibition-lisbonne/05.png">ABS Exhibition — Lisbonne</li>
+        <li data-project="artverse-exhibition" data-images="images/artverse-exhibition/01.jpg,images/artverse-exhibition/02.jpg,images/artverse-exhibition/03.jpg">Artverse Exhibition</li>
+        <li data-project="artverse-event" data-images="images/artverse-event/01.png,images/artverse-event/02.png,images/artverse-event/03.png">Artverse Event</li>
+        <li data-project="nft-factory-exhibition" data-images="images/nft-factory-exhibition/01.jpg,images/nft-factory-exhibition/02.jpg,images/nft-factory-exhibition/03.jpg,images/nft-factory-exhibition/04.jpg,images/nft-factory-exhibition/05.jpg">NFT Factory Exhibition</li>
+        <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Ouverture NFT Factory</li>
+        <li data-project="nft-factory-event" data-images="images/nft-factory-event/F6ASEhAWcAAYoEr.jpeg,images/nft-factory-event/vernissage - shavonne wong.jpeg">NFT Factory Event</li>
+        <li data-project="nft-factory-pop-up-creation" data-images="images/nft-factory-pop-up-creation/01.jpg,images/nft-factory-pop-up-creation/02.jpg,images/nft-factory-pop-up-creation/03.jpg,images/nft-factory-pop-up-creation/04.jpg,images/nft-factory-pop-up-creation/05.jpg">NFT Factory Pop-Up Creation</li>
+        <li data-project="ledger-106-exhibition" data-images="images/ledger-106-exhibition/01.jpg,images/ledger-106-exhibition/02.jpg,images/ledger-106-exhibition/03.jpg,images/ledger-106-exhibition/04.jpg,images/ledger-106-exhibition/05.jpg">Ledger 106 Exhibition</li>
+      </ul>
+
+      <!-- PERSONAL PROJECTS -->
+      <div class="section-label" style="margin-top: 32px;">Personal Projects</div>
+      <ul class="project-list" id="project-list-personal">
+        <li data-project="excalibur-games" data-video="images/excalibur-games/video.mp4">Excalibur / Games</li>
+        <li data-project="cover-music-album" data-images="images/cover-music-album/01.png">Cover Music Album</li>
+        <li data-project="playing-cards" data-images="images/playing-cards/01.jpg,images/playing-cards/02.jpg,images/playing-cards/03.jpg,images/playing-cards/04.jpg">Playing Cards</li>
+        <li data-project="and-more">And More</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT COLUMN — Navigation -->
+    <div class="work-right">
+      <ul class="nav-list" id="nav-list">
+        <li data-nav="about">About</li>
+        <li data-nav="contact">Contact</li>
+        <li data-nav="cv">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5;" onclick="event.stopPropagation()">Download — PDF</a></li>
+        <li data-nav="media" data-nav-link="page-media">Media</li>
+        <li data-nav="clients">Clients</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PROJECT IMAGE OVERLAY
+       This element is reused for all projects.
+       ============================================================ -->
+  <div class="project-image-overlay" id="project-image-overlay"></div>
+
+  <!-- Image templates removed — images now defined via data-images attributes on <li> elements -->
+
+  <!-- ============================================================
+       NAVIGATION PREVIEW PANELS
+       Edit text content directly below.
+       ============================================================ -->
+
+  <!-- ABOUT preview -->
+  <div class="nav-preview" id="preview-about">
+    <p>Titou Granier is a 25-year-old cultural event producer based in Paris, specializing in contemporary art, luxury activations, and international productions.</p>
+    <p style="margin-top: 16px;">He started organizing exhibitions during his studies at ICART Paris, earning a degree in Cultural Mediation and Art Market Studies in 2022. That same year, he was offered the opportunity to create the NFT Factory, a 400-square-meter digital art gallery facing Centre Pompidou. For two and a half years, he directed the space, curating weekly exhibitions with international artists, producing events for LVMH, Balmain, and KPMG, and welcoming up to 5,000 visitors daily. He managed a team of five, oversaw relationships with 128 founders, and developed training programs on secure NFT acquisitions.</p>
+    <p style="margin-top: 16px;">Since 2024, Titou has worked as a freelance event manager across Europe and the United States. He coordinated exhibitions for Institut Montaigne at the Musée des Arts et Métiers, organized nine exhibitions in Lisbon for Arab Bank Switzerland, and produced private events for Artverse, managing international art shipping logistics to the US and Asia. He has worked on Fashion Week activations, corporate events, and pop-up exhibitions in Paris, Geneva, Brussels, New York, and Lisbon.</p>
+    <p style="margin-top: 16px;">Titou handles everything from budget construction and vendor negotiation to on-site coordination and post-event analysis. He speaks French and English fluently and has built a network across cultural institutions, galleries, and luxury brands.</p>
+  </div>
+
+  <!-- CONTACT preview -->
+  <div class="nav-preview preview-contact" id="preview-contact">
+    <a href="tel:+33620370036">+33 6 20 37 00 36</a>
+    <a href="mailto:graniertitou@gmail.com">graniertitou@gmail.com</a>
+  </div>
+
+  <!-- CURRICULUM VITAE preview -->
+  <div class="nav-preview preview-cv" id="preview-cv">
+    <img src="images/cv-preview.png" alt="CV Titou Granier" style="max-width: 100%; max-height: 70vh; display: block; margin: 0 auto;">
+  </div>
+
+  <!-- CLIENTS preview -->
+  <div class="nav-preview" id="preview-clients">
+    <p>Client list coming soon.</p>
+  </div>
+
+  <!-- MEDIA preview (short list, same links as full Media page) -->
+  <div class="nav-preview preview-media" id="preview-media">
+    <a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">— Le Monde — NFT Factory</a>
+    <a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">— Les Numériques — NFT Factory Opening</a>
+    <a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">— 1703 Art — French Galleries &amp; NFT</a>
+    <a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">— TikTok — NFT Factory Paris</a>
+    <a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">— Capital — NFT Factory Reinvents Itself</a>
+    <a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">— Le Parisien — Digital Art in Paris</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 3 — MEDIA (Full page)
+     ============================================================ -->
+<div id="page-media" class="page">
+  <!-- Back to Work -->
+  <a href="#" class="media-back" onclick="event.preventDefault(); goToPage('page-work')">← Work</a>
+
+  <div class="media-title">Media</div>
+
+  <ul class="media-links">
+    <li><a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">— Le Monde — NFT Factory</a></li>
+    <li><a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">— Les Numériques — NFT Factory Opening</a></li>
+    <li><a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">— 1703 Art — French Galleries &amp; NFT</a></li>
+    <li><a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">— TikTok — NFT Factory Paris</a></li>
+    <li><a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">— Capital — NFT Factory Reinvents Itself</a></li>
+    <li><a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">— Le Parisien — Digital Art in Paris</a></li>
+  </ul>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ==========================================================
+     STATE
+     ========================================================== */
+  var lockedNav = null;       /* currently locked nav preview id */
+  var navHovered = false;     /* is a nav item being hovered? */
+  var isMobile = window.matchMedia('(max-width: 768px)');
+  var mobileOpenProject = null; /* currently open mobile project */
+  var mobileOpenNav = null;     /* currently open mobile nav */
+
+  /* ==========================================================
+     PAGE SWITCHING
+     goToPage(id) — fades between pages
+     ========================================================== */
+  window.goToPage = function(targetId) {
+    /* Close any locked preview first */
+    closeLockedPreview();
+
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].classList.remove('active');
+    }
+    /* Small delay so the fade-out begins before fade-in */
+    setTimeout(function() {
+      document.getElementById(targetId).classList.add('active');
+    }, 50);
+  };
+
+  /* ==========================================================
+     PROJECT IMAGE HOVER (desktop: cycling overlay, mobile: inline)
+     Images are defined via data-images attribute on each <li>.
+     Multiple images cycle every 1.5s with a crossfade.
+     ========================================================== */
+  var overlay = document.getElementById('project-image-overlay');
+  var projectItems = document.querySelectorAll('#project-list li, #project-list-personal li');
+  var cycleTimer = null;
+  var currentImageIndex = 0;
+
+  function showImage(src, alt) {
+    /* Create an img, crossfade by replacing content */
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = alt || '';
+    img.style.maxWidth = '45vw';
+    img.style.maxHeight = '70vh';
+    img.style.display = 'block';
+    overlay.innerHTML = '';
+    overlay.appendChild(img);
+  }
+
+  function startCycling(images, alt) {
+    if (!images || images.length === 0) return;
+    currentImageIndex = 0;
+    showImage(images[0], alt);
+    overlay.classList.add('visible');
+
+    if (images.length > 1) {
+      cycleTimer = setInterval(function() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        /* Brief fade for transition */
+        overlay.style.opacity = '0';
+        setTimeout(function() {
+          showImage(images[currentImageIndex], alt);
+          overlay.style.opacity = '1';
+        }, 150);
+      }, 1500);
+    }
+  }
+
+  function stopCycling() {
+    if (cycleTimer) {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
+    }
+    overlay.style.opacity = '';
+    overlay.classList.remove('visible');
+    setTimeout(function() {
+      if (!overlay.classList.contains('visible')) {
+        overlay.innerHTML = '';
+      }
+    }, 200);
+  }
+
+  for (var i = 0; i < projectItems.length; i++) {
+    (function(item) {
+      var imagesStr = item.getAttribute('data-images');
+      var images = imagesStr ? imagesStr.split(',') : [];
+      var videoSrc = item.getAttribute('data-video');
+      var alt = item.textContent;
+
+      item.addEventListener('mouseenter', function() {
+        if (isMobile.matches) return;
+        if (navHovered || lockedNav) return;
+
+        /* Video project: show autoplay video */
+        if (videoSrc) {
+          overlay.innerHTML = '';
+          var video = document.createElement('video');
+          video.src = videoSrc;
+          video.autoplay = true;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.style.maxWidth = '45vw';
+          video.style.maxHeight = '70vh';
+          video.style.display = 'block';
+          overlay.appendChild(video);
+          overlay.classList.add('visible');
+          return;
+        }
+
+        if (images.length === 0) return;
+        startCycling(images, alt);
+      });
+
+      item.addEventListener('mouseleave', function() {
+        if (isMobile.matches) return;
+        stopCycling();
+      });
+
+      /* Mobile: tap to toggle inline image or video */
+      item.addEventListener('click', function() {
+        if (!isMobile.matches) return;
+
+        var existing = item.querySelector('.mobile-project-image');
+
+        /* Close previously open project */
+        if (mobileOpenProject && mobileOpenProject !== item) {
+          var prev = mobileOpenProject.querySelector('.mobile-project-image');
+          if (prev) prev.remove();
+        }
+
+        if (existing) {
+          existing.remove();
+          mobileOpenProject = null;
+        } else if (videoSrc) {
+          var wrapper = document.createElement('div');
+          wrapper.className = 'mobile-project-image';
+          var video = document.createElement('video');
+          video.src = videoSrc;
+          video.autoplay = true;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.controls = true;
+          video.style.width = '100%';
+          wrapper.appendChild(video);
+          item.appendChild(wrapper);
+          mobileOpenProject = item;
+        } else if (images.length > 0) {
+          var wrapper = document.createElement('div');
+          wrapper.className = 'mobile-project-image';
+          var img = document.createElement('img');
+          img.src = images[0];
+          img.alt = alt;
+          wrapper.appendChild(img);
+          item.appendChild(wrapper);
+          mobileOpenProject = item;
+        }
+      });
+    })(projectItems[i]);
+  }
+
+  /* ==========================================================
+     NAVIGATION PREVIEW (hover + lock)
+     ========================================================== */
+  var navItems = document.querySelectorAll('#nav-list li');
+
+  for (var j = 0; j < navItems.length; j++) {
+    (function(navItem) {
+      var navId = navItem.getAttribute('data-nav');
+      var previewEl = document.getElementById('preview-' + navId);
+      var navLink = navItem.getAttribute('data-nav-link');
+
+      /* HOVER — desktop only */
+      navItem.addEventListener('mouseenter', function() {
+        if (isMobile.matches) return;
+        if (lockedNav) return; /* don't hover if something is locked */
+        navHovered = true;
+        /* Hide project image */
+        overlay.classList.remove('visible');
+        if (previewEl) previewEl.classList.add('visible');
+      });
+
+      navItem.addEventListener('mouseleave', function() {
+        if (isMobile.matches) return;
+        if (lockedNav) return;
+        navHovered = false;
+        if (previewEl) previewEl.classList.remove('visible');
+      });
+
+      /* CLICK — lock/unlock or navigate */
+      navItem.addEventListener('click', function() {
+        /* Media nav item: navigate to full media page */
+        if (navLink) {
+          goToPage(navLink);
+          return;
+        }
+
+        if (isMobile.matches) {
+          /* Mobile: toggle inline */
+          if (mobileOpenNav === navId) {
+            if (previewEl) previewEl.classList.remove('mobile-visible');
+            mobileOpenNav = null;
+          } else {
+            /* Close previously open */
+            if (mobileOpenNav) {
+              var prevPreview = document.getElementById('preview-' + mobileOpenNav);
+              if (prevPreview) prevPreview.classList.remove('mobile-visible');
+            }
+            if (previewEl) {
+              previewEl.classList.add('mobile-visible');
+              /* Reposition preview after the nav item for mobile */
+              navItem.parentNode.insertBefore(previewEl, navItem.nextSibling);
+            }
+            mobileOpenNav = navId;
+          }
+          return;
+        }
+
+        /* Desktop: lock/unlock */
+        if (lockedNav === navId) {
+          /* Unlock */
+          closeLockedPreview();
+        } else {
+          /* Close any existing lock */
+          closeLockedPreview();
+          /* Lock this one */
+          lockedNav = navId;
+          navHovered = true;
+          overlay.classList.remove('visible');
+          if (previewEl) previewEl.classList.add('visible');
+        }
+      });
+    })(navItems[j]);
+  }
+
+  /* Close locked preview */
+  function closeLockedPreview() {
+    if (lockedNav) {
+      var el = document.getElementById('preview-' + lockedNav);
+      if (el) el.classList.remove('visible');
+      lockedNav = null;
+      navHovered = false;
+    }
+  }
+
+  /* ==========================================================
+     LANDING NAME — portrait hover
+     ========================================================== */
+  var nameEl = document.getElementById('landing-name');
+  var portraitEl = document.getElementById('landing-portrait');
+  if (nameEl && portraitEl) {
+    nameEl.addEventListener('mouseenter', function() {
+      portraitEl.classList.add('visible');
+    });
+    nameEl.addEventListener('mouseleave', function() {
+      portraitEl.classList.remove('visible');
+    });
+  }
+
+  /* ==========================================================
+     ESCAPE KEY — close any locked preview
+     ========================================================== */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLockedPreview();
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
