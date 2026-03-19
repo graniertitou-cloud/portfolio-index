@@ -91,18 +91,16 @@ a {
   line-height: 1.1;
   cursor: default;
 }
-/* Portrait photo on name hover */
+/* Portrait photo on name hover — appears just above the name */
 .landing-portrait {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 50vh;
-  max-width: 35vw;
-  z-index: 50;
+  position: absolute;
+  max-height: 200px;
+  max-width: 200px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms ease, visibility 0s 200ms;
   pointer-events: none;
+  /* positioned via JS relative to the name element */
 }
 .landing-portrait.visible {
   opacity: 1;
@@ -849,7 +847,13 @@ a {
   var nameEl = document.getElementById('landing-name');
   var portraitEl = document.getElementById('landing-portrait');
   if (nameEl && portraitEl) {
+    function positionPortrait() {
+      var rect = nameEl.getBoundingClientRect();
+      portraitEl.style.left = (rect.left + rect.width / 2 - portraitEl.naturalWidth / 2) + 'px';
+      portraitEl.style.top = (rect.top - Math.min(portraitEl.naturalHeight, 200) - 16) + 'px';
+    }
     nameEl.addEventListener('mouseenter', function() {
+      positionPortrait();
       portraitEl.classList.add('visible');
     });
     nameEl.addEventListener('mouseleave', function() {
