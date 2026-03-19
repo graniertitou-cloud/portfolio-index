@@ -91,6 +91,24 @@ a {
   line-height: 1.1;
   cursor: default;
 }
+/* Portrait photo on name hover */
+.landing-portrait {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 50vh;
+  max-width: 35vw;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 0s 200ms;
+  pointer-events: none;
+}
+.landing-portrait.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease, visibility 0s 0s;
+}
 .landing-title {
   font-weight: 400;
   font-size: 16px;
@@ -431,7 +449,6 @@ a {
      ============================================================ -->
 <div id="page-landing" class="page active" onclick="goToPage('page-work')">
   <div class="landing-content">
-    <img src="images/titou-portrait.png" alt="Titou Granier" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 20px auto;">
     <div class="landing-name" id="landing-name">Titou Granier</div>
     <div class="landing-title">Event & Cultural Project Manager</div>
     <div class="landing-contact">
@@ -442,6 +459,7 @@ a {
     </div>
   </div>
   <div class="landing-hint">Work</div>
+  <img src="images/titou-portrait.png" alt="Titou Granier" class="landing-portrait" id="landing-portrait">
 </div>
 
 <!-- ============================================================
@@ -826,6 +844,20 @@ a {
   }
 
 /* ==========================================================
+     LANDING NAME — portrait hover
+     ========================================================== */
+  var nameEl = document.getElementById('landing-name');
+  var portraitEl = document.getElementById('landing-portrait');
+  if (nameEl && portraitEl) {
+    nameEl.addEventListener('mouseenter', function() {
+      portraitEl.classList.add('visible');
+    });
+    nameEl.addEventListener('mouseleave', function() {
+      portraitEl.classList.remove('visible');
+    });
+  }
+
+  /* ==========================================================
      ESCAPE KEY — close any locked preview
      ========================================================== */
   document.addEventListener('keydown', function(e) {
