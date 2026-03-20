@@ -238,6 +238,9 @@ a {
   visibility: hidden;
   transition: opacity 200ms ease, visibility 0s 200ms;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .project-image-overlay.visible {
   opacity: 1;
@@ -328,8 +331,10 @@ a {
 }
 /* Fullscreen mode */
 .project-image-overlay.fullscreen {
-  max-width: 95vw;
-  max-height: 95vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 .project-image-overlay.fullscreen img,
 .project-image-overlay.fullscreen video {
