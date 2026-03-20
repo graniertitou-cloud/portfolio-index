@@ -866,8 +866,8 @@ a {
       video.loop = true;
       video.playsInline = true;
       video.controls = true;
-      video.style.maxWidth = isMobile.matches ? '90vw' : '45vw';
-      video.style.maxHeight = '70vh';
+      video.style.maxWidth = isMobile.matches ? '90vw' : '65vw';
+      video.style.maxHeight = '80vh';
       video.style.display = 'block';
       overlay.appendChild(video);
       overlay.classList.add('visible');
@@ -894,8 +894,8 @@ a {
       img.style.maxWidth = isMobile.matches ? '98vw' : '95vw';
       img.style.maxHeight = isMobile.matches ? '98vh' : '95vh';
     } else {
-      img.style.maxWidth = isMobile.matches ? '90vw' : '45vw';
-      img.style.maxHeight = '70vh';
+      img.style.maxWidth = isMobile.matches ? '90vw' : '65vw';
+      img.style.maxHeight = '80vh';
     }
     overlay.innerHTML = '';
     overlay.appendChild(img);
@@ -935,8 +935,8 @@ a {
     if (galleryIsVideo) {
       var video = overlay.querySelector('video');
       if (video) {
-        video.style.maxWidth = galleryFullscreen ? '95vw' : (isMobile.matches ? '90vw' : '45vw');
-        video.style.maxHeight = galleryFullscreen ? '95vh' : '70vh';
+        video.style.maxWidth = galleryFullscreen ? '95vw' : (isMobile.matches ? '90vw' : '65vw');
+        video.style.maxHeight = galleryFullscreen ? '95vh' : '80vh';
       }
     } else {
       showGalleryImage();
