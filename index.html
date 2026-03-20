@@ -193,7 +193,7 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   line-height: 2.4;
-  cursor: default;
+  cursor: pointer;
   position: relative;
 }
 .project-list li:hover {
@@ -251,6 +251,101 @@ a {
   max-height: 70vh;
   display: block;
 }
+/* Gallery arrows */
+.gallery-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-family: 'Code Saver', monospace;
+  color: #000000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  user-select: none;
+  letter-spacing: 0;
+  display: none;
+  padding: 16px;
+}
+.gallery-arrow:hover {
+  opacity: 1;
+}
+.gallery-arrow-left {
+  left: 24px;
+}
+.gallery-arrow-right {
+  right: 24px;
+}
+/* Gallery close button */
+.gallery-close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  font-size: 18px;
+  font-family: 'Code Saver', monospace;
+  color: #000000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  display: none;
+  padding: 8px;
+}
+.gallery-close:hover {
+  opacity: 1;
+}
+/* Gallery fullscreen button */
+.gallery-fullscreen {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  font-size: 11px;
+  font-family: 'Code Saver', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #000000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  display: none;
+  padding: 8px;
+}
+.gallery-fullscreen:hover {
+  opacity: 1;
+}
+/* Gallery counter */
+.gallery-counter {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-family: 'Code Saver', monospace;
+  letter-spacing: 0.15em;
+  color: #000000;
+  opacity: 0.4;
+  z-index: 52;
+  display: none;
+}
+/* Fullscreen mode */
+.project-image-overlay.fullscreen {
+  max-width: 95vw;
+  max-height: 95vh;
+}
+.project-image-overlay.fullscreen img,
+.project-image-overlay.fullscreen video {
+  max-width: 95vw;
+  max-height: 95vh;
+}
+/* Gallery backdrop */
+.gallery-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 49;
+  display: none;
+}
+
 /* Placeholder styling */
 .placeholder-img {
   background: #E0E0E0;
@@ -443,27 +538,29 @@ a {
     line-height: 2.2;
   }
 
-  /* Project images inline on mobile */
+  /* Project images: use gallery on mobile too */
   .project-image-overlay {
-    display: none !important;
+    max-width: 90vw;
+    max-height: 70vh;
   }
-  .mobile-project-image {
-    display: block;
-    width: 100%;
-    margin: 8px 0 16px 0;
+  .project-image-overlay img,
+  .project-image-overlay video {
+    max-width: 90vw;
+    max-height: 70vh;
   }
-  .mobile-project-image .placeholder-img {
-    width: 100%;
+  .project-image-overlay.fullscreen {
+    max-width: 98vw;
+    max-height: 98vh;
   }
-  .mobile-project-image img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+  .project-image-overlay.fullscreen img,
+  .project-image-overlay.fullscreen video {
+    max-width: 98vw;
+    max-height: 98vh;
   }
-  .mobile-project-image video {
-    width: 100%;
-    height: auto;
-  }
+  .gallery-arrow-left { left: 8px; }
+  .gallery-arrow-right { right: 8px; }
+  .gallery-close { top: 16px; right: 16px; }
+  .gallery-fullscreen { bottom: 16px; right: 16px; }
 
   /* Nav preview inline on mobile */
   .nav-preview {
@@ -535,12 +632,6 @@ a {
   }
 }
 
-/* Hide mobile-only elements on desktop */
-@media (min-width: 769px) {
-  .mobile-project-image {
-    display: none !important;
-  }
-}
 </style>
 </head>
 <body>
@@ -569,7 +660,7 @@ a {
      ============================================================ -->
 <div id="page-work" class="page">
   <!-- Back to landing -->
-  <a href="#" class="back-link" onclick="event.preventDefault(); goToPage('page-landing')">← Index</a>
+  <a href="#" class="back-link" onclick="event.preventDefault(); goToPage('page-landing')">← COME BACK</a>
 
   <div class="work-layout">
 
@@ -618,7 +709,7 @@ a {
       <ul class="nav-list" id="nav-list">
         <li data-nav="about">About</li>
         <li data-nav="contact">Contact</li>
-        <li data-nav="cv">Curriculum Vitae<br style="line-height: 0.3;"><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5;" onclick="event.stopPropagation()">Download — PDF</a></li>
+        <li data-nav="cv">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5; line-height: 1; display: inline-block; margin-top: -4px;" onclick="event.stopPropagation()">Download — PDF</a></li>
         <li data-nav="media">Media</li>
         <li data-nav="clients">Clients</li>
       </ul>
@@ -629,7 +720,13 @@ a {
        PROJECT IMAGE OVERLAY
        This element is reused for all projects.
        ============================================================ -->
+  <div class="gallery-backdrop" id="gallery-backdrop"></div>
   <div class="project-image-overlay" id="project-image-overlay"></div>
+  <span class="gallery-arrow gallery-arrow-left" id="gallery-arrow-left">←</span>
+  <span class="gallery-arrow gallery-arrow-right" id="gallery-arrow-right">→</span>
+  <span class="gallery-close" id="gallery-close">✕</span>
+  <span class="gallery-fullscreen" id="gallery-fullscreen">Fullscreen</span>
+  <span class="gallery-counter" id="gallery-counter"></span>
 
   <!-- Image templates removed — images now defined via data-images attributes on <li> elements -->
 
@@ -708,84 +805,178 @@ a {
   /* ==========================================================
      STATE
      ========================================================== */
-  var lockedNav = null;       /* currently locked nav preview id */
-  var navHovered = false;     /* is a nav item being hovered? */
+  var lockedNav = null;
+  var navHovered = false;
   var isMobile = window.matchMedia('(max-width: 768px)');
-  var mobileOpenProject = null; /* currently open mobile project */
-  var mobileOpenNav = null;     /* currently open mobile nav */
+  var mobileOpenNav = null;
+
+  /* Gallery state */
+  var galleryOpen = false;
+  var galleryImages = [];
+  var galleryIndex = 0;
+  var galleryAlt = '';
+  var galleryIsVideo = false;
+  var galleryFullscreen = false;
+
+  /* Gallery DOM elements */
+  var overlay = document.getElementById('project-image-overlay');
+  var backdrop = document.getElementById('gallery-backdrop');
+  var arrowLeft = document.getElementById('gallery-arrow-left');
+  var arrowRight = document.getElementById('gallery-arrow-right');
+  var galleryCloseBtn = document.getElementById('gallery-close');
+  var galleryFsBtn = document.getElementById('gallery-fullscreen');
+  var galleryCounter = document.getElementById('gallery-counter');
 
   /* ==========================================================
      PAGE SWITCHING
-     goToPage(id) — fades between pages
      ========================================================== */
   window.goToPage = function(targetId) {
-    /* Close any locked preview first */
     closeLockedPreview();
-
+    closeGallery();
     var pages = document.querySelectorAll('.page');
     for (var i = 0; i < pages.length; i++) {
       pages[i].classList.remove('active');
     }
-    /* Small delay so the fade-out begins before fade-in */
     setTimeout(function() {
       document.getElementById(targetId).classList.add('active');
     }, 50);
   };
 
   /* ==========================================================
-     PROJECT IMAGE HOVER (desktop: cycling overlay, mobile: inline)
-     Images are defined via data-images attribute on each <li>.
-     Multiple images cycle every 1.5s with a crossfade.
+     GALLERY — open/close/navigate
      ========================================================== */
-  var overlay = document.getElementById('project-image-overlay');
-  var projectItems = document.querySelectorAll('#project-list li, #project-list-personal li');
-  var cycleTimer = null;
-  var currentImageIndex = 0;
+  function openGallery(images, alt, isVideo, videoSrc) {
+    galleryOpen = true;
+    galleryImages = images;
+    galleryAlt = alt;
+    galleryIsVideo = isVideo;
+    galleryIndex = 0;
+    galleryFullscreen = false;
+    overlay.classList.remove('fullscreen');
 
-  function showImage(src, alt) {
-    /* Create an img, crossfade by replacing content */
+    backdrop.style.display = 'block';
+    galleryCloseBtn.style.display = 'block';
+
+    if (isVideo) {
+      overlay.innerHTML = '';
+      var video = document.createElement('video');
+      video.src = videoSrc;
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.controls = true;
+      video.style.maxWidth = isMobile.matches ? '90vw' : '45vw';
+      video.style.maxHeight = '70vh';
+      video.style.display = 'block';
+      overlay.appendChild(video);
+      overlay.classList.add('visible');
+      arrowLeft.style.display = 'none';
+      arrowRight.style.display = 'none';
+      galleryCounter.style.display = 'none';
+      galleryFsBtn.style.display = 'block';
+    } else {
+      showGalleryImage();
+      arrowLeft.style.display = images.length > 1 ? 'block' : 'none';
+      arrowRight.style.display = images.length > 1 ? 'block' : 'none';
+      galleryCounter.style.display = images.length > 1 ? 'block' : 'none';
+      galleryFsBtn.style.display = 'block';
+    }
+  }
+
+  function showGalleryImage() {
+    var src = galleryImages[galleryIndex];
     var img = document.createElement('img');
     img.src = src;
-    img.alt = alt || '';
-    img.style.maxWidth = '45vw';
-    img.style.maxHeight = '70vh';
+    img.alt = galleryAlt;
     img.style.display = 'block';
+    if (galleryFullscreen) {
+      img.style.maxWidth = isMobile.matches ? '98vw' : '95vw';
+      img.style.maxHeight = isMobile.matches ? '98vh' : '95vh';
+    } else {
+      img.style.maxWidth = isMobile.matches ? '90vw' : '45vw';
+      img.style.maxHeight = '70vh';
+    }
     overlay.innerHTML = '';
     overlay.appendChild(img);
-  }
-
-  function startCycling(images, alt) {
-    if (!images || images.length === 0) return;
-    currentImageIndex = 0;
-    showImage(images[0], alt);
     overlay.classList.add('visible');
+    galleryCounter.textContent = (galleryIndex + 1) + ' / ' + galleryImages.length;
+  }
 
-    if (images.length > 1) {
-      cycleTimer = setInterval(function() {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        /* Brief fade for transition */
-        overlay.style.opacity = '0';
-        setTimeout(function() {
-          showImage(images[currentImageIndex], alt);
-          overlay.style.opacity = '1';
-        }, 150);
-      }, 3000);
+  function galleryNext() {
+    if (!galleryOpen || galleryIsVideo) return;
+    galleryIndex = (galleryIndex + 1) % galleryImages.length;
+    overlay.style.opacity = '0';
+    setTimeout(function() {
+      showGalleryImage();
+      overlay.style.opacity = '1';
+    }, 150);
+  }
+
+  function galleryPrev() {
+    if (!galleryOpen || galleryIsVideo) return;
+    galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+    overlay.style.opacity = '0';
+    setTimeout(function() {
+      showGalleryImage();
+      overlay.style.opacity = '1';
+    }, 150);
+  }
+
+  function toggleFullscreen() {
+    galleryFullscreen = !galleryFullscreen;
+    if (galleryFullscreen) {
+      overlay.classList.add('fullscreen');
+      galleryFsBtn.textContent = 'Exit';
+    } else {
+      overlay.classList.remove('fullscreen');
+      galleryFsBtn.textContent = 'Fullscreen';
+    }
+    if (galleryIsVideo) {
+      var video = overlay.querySelector('video');
+      if (video) {
+        video.style.maxWidth = galleryFullscreen ? '95vw' : (isMobile.matches ? '90vw' : '45vw');
+        video.style.maxHeight = galleryFullscreen ? '95vh' : '70vh';
+      }
+    } else {
+      showGalleryImage();
     }
   }
 
-  function stopCycling() {
-    if (cycleTimer) {
-      clearInterval(cycleTimer);
-      cycleTimer = null;
-    }
-    overlay.style.opacity = '';
+  function closeGallery() {
+    if (!galleryOpen) return;
+    galleryOpen = false;
+    galleryFullscreen = false;
+    overlay.classList.remove('fullscreen');
     overlay.classList.remove('visible');
+    overlay.style.opacity = '';
+    backdrop.style.display = 'none';
+    arrowLeft.style.display = 'none';
+    arrowRight.style.display = 'none';
+    galleryCloseBtn.style.display = 'none';
+    galleryFsBtn.style.display = 'none';
+    galleryFsBtn.textContent = 'Fullscreen';
+    galleryCounter.style.display = 'none';
     setTimeout(function() {
       if (!overlay.classList.contains('visible')) {
         overlay.innerHTML = '';
       }
     }, 200);
   }
+
+  /* Gallery controls */
+  arrowLeft.addEventListener('click', function(e) { e.stopPropagation(); galleryPrev(); });
+  arrowRight.addEventListener('click', function(e) { e.stopPropagation(); galleryNext(); });
+  galleryCloseBtn.addEventListener('click', function(e) { e.stopPropagation(); closeGallery(); });
+  galleryFsBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleFullscreen(); });
+  backdrop.addEventListener('click', function() { closeGallery(); });
+
+  /* ==========================================================
+     PROJECT HOVER (desktop preview) + CLICK (open gallery)
+     ========================================================== */
+  var projectItems = document.querySelectorAll('#project-list li, #project-list-personal li');
+  var hoverTimer = null;
+  var hoverIndex = 0;
 
   for (var i = 0; i < projectItems.length; i++) {
     (function(item) {
@@ -794,11 +985,11 @@ a {
       var videoSrc = item.getAttribute('data-video');
       var alt = item.textContent;
 
+      /* HOVER — desktop only, preview cycling (not locked) */
       item.addEventListener('mouseenter', function() {
-        if (isMobile.matches) return;
+        if (isMobile.matches || galleryOpen) return;
         if (navHovered || lockedNav) return;
 
-        /* Video project: show autoplay video */
         if (videoSrc) {
           overlay.innerHTML = '';
           var video = document.createElement('video');
@@ -814,58 +1005,89 @@ a {
           overlay.classList.add('visible');
           return;
         }
-
         if (images.length === 0) return;
-        startCycling(images, alt);
+        hoverIndex = 0;
+        showHoverImage(images, alt);
+        overlay.classList.add('visible');
+        if (images.length > 1) {
+          hoverTimer = setInterval(function() {
+            hoverIndex = (hoverIndex + 1) % images.length;
+            overlay.style.opacity = '0';
+            setTimeout(function() {
+              showHoverImage(images, alt);
+              overlay.style.opacity = '1';
+            }, 150);
+          }, 3000);
+        }
       });
 
       item.addEventListener('mouseleave', function() {
-        if (isMobile.matches) return;
-        stopCycling();
+        if (isMobile.matches || galleryOpen) return;
+        stopHover();
       });
 
-      /* Mobile: tap to toggle inline image or video */
+      /* CLICK — open gallery (both desktop and mobile) */
       item.addEventListener('click', function() {
-        if (!isMobile.matches) return;
-
-        var existing = item.querySelector('.mobile-project-image');
-
-        /* Close previously open project */
-        if (mobileOpenProject && mobileOpenProject !== item) {
-          var prev = mobileOpenProject.querySelector('.mobile-project-image');
-          if (prev) prev.remove();
-        }
-
-        if (existing) {
-          existing.remove();
-          mobileOpenProject = null;
-        } else if (videoSrc) {
-          var wrapper = document.createElement('div');
-          wrapper.className = 'mobile-project-image';
-          var video = document.createElement('video');
-          video.src = videoSrc;
-          video.autoplay = true;
-          video.muted = true;
-          video.loop = true;
-          video.playsInline = true;
-          video.controls = true;
-          video.style.width = '100%';
-          wrapper.appendChild(video);
-          item.appendChild(wrapper);
-          mobileOpenProject = item;
-        } else if (images.length > 0) {
-          var wrapper = document.createElement('div');
-          wrapper.className = 'mobile-project-image';
-          var img = document.createElement('img');
-          img.src = images[0];
-          img.alt = alt;
-          wrapper.appendChild(img);
-          item.appendChild(wrapper);
-          mobileOpenProject = item;
+        if (images.length === 0 && !videoSrc) return;
+        stopHover();
+        if (videoSrc) {
+          openGallery([], alt, true, videoSrc);
+        } else {
+          openGallery(images, alt, false, null);
         }
       });
     })(projectItems[i]);
   }
+
+  function showHoverImage(images, alt) {
+    var img = document.createElement('img');
+    img.src = images[hoverIndex];
+    img.alt = alt;
+    img.style.maxWidth = '45vw';
+    img.style.maxHeight = '70vh';
+    img.style.display = 'block';
+    overlay.innerHTML = '';
+    overlay.appendChild(img);
+  }
+
+  function stopHover() {
+    if (hoverTimer) {
+      clearInterval(hoverTimer);
+      hoverTimer = null;
+    }
+    overlay.style.opacity = '';
+    overlay.classList.remove('visible');
+    setTimeout(function() {
+      if (!overlay.classList.contains('visible')) {
+        overlay.innerHTML = '';
+      }
+    }, 200);
+  }
+
+  /* ==========================================================
+     TOUCH SWIPE (mobile gallery)
+     ========================================================== */
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchSwiping = false;
+
+  overlay.addEventListener('touchstart', function(e) {
+    if (!galleryOpen || galleryIsVideo) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchSwiping = true;
+  }, { passive: true });
+
+  overlay.addEventListener('touchend', function(e) {
+    if (!touchSwiping) return;
+    touchSwiping = false;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) galleryNext();
+      else galleryPrev();
+    }
+  }, { passive: true });
 
   /* ==========================================================
      NAVIGATION PREVIEW (hover + lock)
@@ -878,12 +1100,10 @@ a {
       var previewEl = document.getElementById('preview-' + navId);
       var navLink = navItem.getAttribute('data-nav-link');
 
-      /* HOVER — desktop only */
       navItem.addEventListener('mouseenter', function() {
         if (isMobile.matches) return;
-        if (lockedNav) return; /* don't hover if something is locked */
+        if (lockedNav || galleryOpen) return;
         navHovered = true;
-        /* Hide project image */
         overlay.classList.remove('visible');
         if (previewEl) previewEl.classList.add('visible');
       });
@@ -895,28 +1115,23 @@ a {
         if (previewEl) previewEl.classList.remove('visible');
       });
 
-      /* CLICK — lock/unlock or navigate */
       navItem.addEventListener('click', function() {
-        /* Media nav item: navigate to full media page */
         if (navLink) {
           goToPage(navLink);
           return;
         }
 
         if (isMobile.matches) {
-          /* Mobile: toggle inline */
           if (mobileOpenNav === navId) {
             if (previewEl) previewEl.classList.remove('mobile-visible');
             mobileOpenNav = null;
           } else {
-            /* Close previously open */
             if (mobileOpenNav) {
               var prevPreview = document.getElementById('preview-' + mobileOpenNav);
               if (prevPreview) prevPreview.classList.remove('mobile-visible');
             }
             if (previewEl) {
               previewEl.classList.add('mobile-visible');
-              /* Reposition preview after the nav item for mobile */
               navItem.parentNode.insertBefore(previewEl, navItem.nextSibling);
             }
             mobileOpenNav = navId;
@@ -924,14 +1139,10 @@ a {
           return;
         }
 
-        /* Desktop: lock/unlock */
         if (lockedNav === navId) {
-          /* Unlock */
           closeLockedPreview();
         } else {
-          /* Close any existing lock */
           closeLockedPreview();
-          /* Lock this one */
           lockedNav = navId;
           navHovered = true;
           overlay.classList.remove('visible');
@@ -944,7 +1155,6 @@ a {
     })(navItems[j]);
   }
 
-  /* Close locked preview */
   function closeLockedPreview() {
     if (lockedNav) {
       var el = document.getElementById('preview-' + lockedNav);
@@ -957,7 +1167,6 @@ a {
     }
   }
 
-  /* Close buttons on preview panels */
   var closeBtns = document.querySelectorAll('.nav-preview-close');
   for (var k = 0; k < closeBtns.length; k++) {
     closeBtns[k].addEventListener('click', function(e) {
@@ -966,7 +1175,7 @@ a {
     });
   }
 
-/* ==========================================================
+  /* ==========================================================
      LANDING NAME — portrait hover
      ========================================================== */
   var nameEl = document.getElementById('landing-name');
@@ -989,13 +1198,46 @@ a {
   }
 
   /* ==========================================================
-     ESCAPE KEY — close any locked preview
+     KEYBOARD — arrows, escape, F for fullscreen
      ========================================================== */
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-      closeLockedPreview();
+      if (galleryOpen) closeGallery();
+      else closeLockedPreview();
+    }
+    if (galleryOpen) {
+      if (e.key === 'ArrowRight') galleryNext();
+      if (e.key === 'ArrowLeft') galleryPrev();
+      if (e.key === 'f' || e.key === 'F') toggleFullscreen();
     }
   });
+
+  /* ==========================================================
+     LAZY PRELOAD — start loading all project images immediately
+     ========================================================== */
+  (function preloadImages() {
+    var items = document.querySelectorAll('[data-images]');
+    var allSrcs = [];
+    for (var i = 0; i < items.length; i++) {
+      var srcs = items[i].getAttribute('data-images').split(',');
+      for (var j = 0; j < srcs.length; j++) {
+        allSrcs.push(srcs[j]);
+      }
+    }
+    /* Load 3 at a time to avoid saturating bandwidth */
+    var idx = 0;
+    function loadNext() {
+      if (idx >= allSrcs.length) return;
+      var img = new Image();
+      img.onload = img.onerror = function() {
+        idx++;
+        loadNext();
+      };
+      img.src = allSrcs[idx];
+    }
+    /* Start 3 parallel streams */
+    loadNext(); loadNext(); loadNext();
+  })();
 
 })();
 </script>
