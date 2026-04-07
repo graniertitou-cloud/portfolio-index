@@ -714,26 +714,51 @@ a {
   .landing-portrait {
     display: none !important;
   }
-  /* Quiz mobile */
+  /* Character mobile — smaller, centered at bottom */
   #character-wrap {
-    height: 40vh;
-    right: 2%;
-  }
-  #quiz-bubble {
+    height: 30vh;
     right: auto;
-    left: 5%;
-    bottom: auto;
-    top: 5%;
-    max-width: 85vw;
-    max-height: 60vh;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 40px;
+  }
+  /* Quiz bubble mobile — full width top overlay */
+  #quiz-bubble {
+    position: fixed;
+    right: auto;
+    left: 4%;
+    right: 4%;
+    top: auto;
+    bottom: 38vh;
+    max-width: 92vw;
+    width: 92vw;
+    max-height: 50vh;
+    overflow-y: auto;
     font-size: 11px;
+    z-index: 20;
   }
   #quiz-bubble::after { display: none; }
+  #quiz-buttons button {
+    font-size: 10px;
+    padding: 10px 12px;
+  }
   #quiz-start-btn {
+    position: fixed;
     right: auto;
-    left: 5%;
+    left: 50%;
+    transform: translateX(-50%);
     top: auto;
-    bottom: 25vh;
+    bottom: calc(30vh + 50px);
+    white-space: nowrap;
+    font-size: 9px;
+    z-index: 20;
+  }
+  /* Landing content — push up to make room for character */
+  #page-landing .landing-content {
+    margin-top: -10vh;
+  }
+  .landing-hint {
+    bottom: calc(30vh + 10px) !important;
   }
 
   /* Page 2 mobile: single column */
@@ -883,7 +908,7 @@ a {
   <div id="character-wrap">
     <img src="images/character.png" alt="" id="character-sprite">
   </div>
-  <button id="quiz-start-btn" onclick="event.stopPropagation(); event.preventDefault(); startQuiz();">Est-ce que vous voulez travailler avec moi ?</button>
+  <button id="quiz-start-btn" onclick="event.stopPropagation(); event.preventDefault(); startQuiz();">Do you want to work with me?</button>
   <div id="quiz-bubble" onclick="event.stopPropagation();">
     <div id="quiz-question"></div>
     <div id="quiz-buttons"></div>
@@ -915,7 +940,7 @@ a {
       <div class="section-label">Professional Projects</div>
       <ul class="project-list" id="project-list">
         <li data-project="paris-photo" data-images="images/paris-photo/DSC02669.jpg,images/paris-photo/DSC02743.jpg,images/paris-photo/DSC02747.jpg,images/paris-photo/DSC02803.jpg">Paris Photo</li>
-        <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">Sommet pour l'Action sur l'IA</li>
+        <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">AI Action Summit</li>
         <li data-project="brussels-digital-af" data-images="images/brussels-digital-af/01.jpg,images/brussels-digital-af/02.jpg,images/brussels-digital-af/03.jpg,images/brussels-digital-af/04.jpg,images/brussels-digital-af/05.jpg">Brussels / Digital AF!</li>
         <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Musée Jacquemart-André</li>
         <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Musée des Arts et Métiers</li>
@@ -928,7 +953,7 @@ a {
       <!-- NFT Factory group -->
       <div class="project-group-title" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">NFT Factory</div>
       <ul class="project-sublist">
-        <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Ouverture</li>
+        <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Opening</li>
         <li data-project="nft-factory-exhibition" data-images="images/nft-factory-exhibition/01.jpg,images/nft-factory-exhibition/02.jpg,images/nft-factory-exhibition/03.jpg,images/nft-factory-exhibition/04.jpg,images/nft-factory-exhibition/05.jpg">Exhibition</li>
         <li data-project="nft-factory-event" data-images="images/nft-factory-event/F6ASEhAWcAAYoEr.jpeg,images/nft-factory-event/vernissage - shavonne wong.jpeg">Event</li>
         <li data-project="nft-factory-pop-up-creation" data-images="images/nft-factory-pop-up-creation/01.jpg,images/nft-factory-pop-up-creation/02.jpg,images/nft-factory-pop-up-creation/03.jpg,images/nft-factory-pop-up-creation/04.jpg,images/nft-factory-pop-up-creation/05.jpg">Pop-Up Creation</li>
@@ -1080,6 +1105,12 @@ a {
   window.goToPage = function(targetId) {
     closeLockedPreview();
     closeGallery();
+    /* Stop quiz and speech when leaving a page */
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    var bubble = document.getElementById('quiz-bubble');
+    if (bubble) bubble.classList.remove('visible');
+    var qBtn = document.getElementById('quiz-start-btn');
+    if (qBtn) qBtn.style.display = '';
     var pages = document.querySelectorAll('.page');
     for (var i = 0; i < pages.length; i++) {
       pages[i].classList.remove('active');
@@ -1687,7 +1718,7 @@ a {
       else if (pct >= 40) msg = "Not a perfect fit on paper, but I've surprised people before.";
       else msg = "Maybe not this time. But keep me in mind.";
 
-      if (pct >= 60 && charSprite) charSprite.src = 'images/character-handshake.png';
+      if (pct > 50 && charSprite) charSprite.src = 'images/character-handshake.png';
 
       qEl.innerHTML = '';
       fEl.className = '';
