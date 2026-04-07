@@ -1753,6 +1753,7 @@ a {
   window.answerQuiz = function(idx) {
     if (!quizState.active || quizState.answered) return;
     quizState.answered = true;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
     var question = quizQuestions[quizState.current];
     var chosen = question.answers[idx];
@@ -1770,11 +1771,25 @@ a {
     fEl.textContent = chosen.reaction;
     fEl.classList.add('show');
 
+    quizState.canSkip = true;
     speak(chosen.reaction, function() {
+      if (!quizState.canSkip) return; /* already skipped */
+      quizState.canSkip = false;
       quizState.current++;
       setTimeout(showQuestion, 800);
     });
   };
+
+  /* Skip: click bubble to stop speech and advance */
+  document.getElementById('quiz-bubble').addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+    if (!quizState.canSkip) return;
+    quizState.canSkip = false;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopMouthAnim();
+    quizState.current++;
+    showQuestion();
+  });
 
   window.restartQuiz = function() {
     if (charSprite) charSprite.src = pngSrc;
