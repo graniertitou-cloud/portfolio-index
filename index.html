@@ -107,6 +107,162 @@ a {
   visibility: visible;
   transition: opacity 200ms ease, visibility 0s 0s;
 }
+/* Voxel character on landing page */
+#character-wrap {
+  position: absolute;
+  right: 2%;
+  bottom: 0;
+  height: 75vh;
+  z-index: 2;
+  pointer-events: none;
+}
+#character-sprite {
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+/* Quiz speech bubble — attached to character head */
+#quiz-bubble {
+  position: absolute;
+  right: calc(5% + 140px);
+  top: 4vh;
+  max-width: 380px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: #fff;
+  color: #000;
+  font-family: 'Code Saver', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 18px 22px;
+  border: 1px solid #000;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease, visibility 0s 300ms;
+  pointer-events: auto;
+}
+#quiz-bubble.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 300ms ease, visibility 0s 0s;
+}
+/* Triangle pointing down-right toward character head */
+#quiz-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  right: 30px;
+  width: 0; height: 0;
+  border-top: 11px solid #000;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+#quiz-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  right: 31px;
+  width: 0; height: 0;
+  border-top: 10px solid #fff;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  z-index: 1;
+}
+#quiz-question {
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+#quiz-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#quiz-buttons button {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: 'Code Saver', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  text-align: left;
+  transition: background 200ms, color 200ms;
+}
+#quiz-buttons button:hover {
+  background: #000;
+  color: #fff;
+}
+#quiz-buttons button.disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}
+#quiz-buttons button.selected {
+  background: #000;
+  color: #fff;
+  pointer-events: none;
+}
+#quiz-feedback {
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+#quiz-feedback.show { opacity: 1; }
+#quiz-score {
+  font-size: 10px;
+  opacity: 0.4;
+  margin-top: 8px;
+}
+#quiz-final-score {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin: 10px 0;
+}
+#quiz-final-msg {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+#quiz-buttons a.quiz-profile-link {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-family: 'Code Saver', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+#quiz-start-btn {
+  position: absolute;
+  right: calc(5% + 40px);
+  top: 6vh;
+  font-family: 'Code Saver', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  padding: 8px 20px;
+  cursor: pointer;
+  z-index: 3;
+  pointer-events: auto;
+  transition: opacity 200ms;
+}
+#quiz-start-btn:hover { opacity: 0.6; }
 .landing-title {
   font-weight: 400;
   font-size: 16px;
@@ -198,6 +354,51 @@ a {
 }
 .project-list li:hover {
   opacity: 0.6;
+}
+/* Project groups (collapsible) */
+.project-group-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 2.4;
+  cursor: pointer;
+  position: relative;
+  list-style: none;
+}
+.project-group-title:hover {
+  opacity: 0.6;
+}
+.project-group-title::before {
+  content: '+';
+  display: inline-block;
+  width: 14px;
+  font-size: 11px;
+  opacity: 0.4;
+  transition: transform 200ms;
+}
+.project-group-title.open::before {
+  content: '−';
+}
+.project-sublist {
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease;
+  padding-left: 18px;
+}
+.project-sublist.open {
+  max-height: 500px;
+}
+.project-sublist li {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 2.2;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.project-sublist li:hover {
+  opacity: 1;
 }
 
 /* Right column — navigation (top-right) */
@@ -513,6 +714,27 @@ a {
   .landing-portrait {
     display: none !important;
   }
+  /* Quiz mobile */
+  #character-wrap {
+    height: 40vh;
+    right: 2%;
+  }
+  #quiz-bubble {
+    right: auto;
+    left: 5%;
+    bottom: auto;
+    top: 5%;
+    max-width: 85vw;
+    max-height: 60vh;
+    font-size: 11px;
+  }
+  #quiz-bubble::after { display: none; }
+  #quiz-start-btn {
+    right: auto;
+    left: 5%;
+    top: auto;
+    bottom: 25vh;
+  }
 
   /* Page 2 mobile: single column */
   .work-layout {
@@ -658,6 +880,16 @@ a {
   </div>
   <div class="landing-hint">ENTER</div>
   <img src="images/titou-portrait.png" alt="Titou Granier" class="landing-portrait" id="landing-portrait">
+  <div id="character-wrap">
+    <img src="images/character.png" alt="" id="character-sprite">
+  </div>
+  <button id="quiz-start-btn" onclick="event.stopPropagation(); event.preventDefault(); startQuiz();">Est-ce que vous voulez travailler avec moi ?</button>
+  <div id="quiz-bubble" onclick="event.stopPropagation();">
+    <div id="quiz-question"></div>
+    <div id="quiz-buttons"></div>
+    <div id="quiz-feedback"></div>
+    <div id="quiz-score"></div>
+  </div>
 </div>
 
 <!-- ============================================================
@@ -683,20 +915,30 @@ a {
       <div class="section-label">Professional Projects</div>
       <ul class="project-list" id="project-list">
         <li data-project="paris-photo" data-images="images/paris-photo/DSC02669.jpg,images/paris-photo/DSC02743.jpg,images/paris-photo/DSC02747.jpg,images/paris-photo/DSC02803.jpg">Paris Photo</li>
+        <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">Sommet pour l'Action sur l'IA</li>
         <li data-project="brussels-digital-af" data-images="images/brussels-digital-af/01.jpg,images/brussels-digital-af/02.jpg,images/brussels-digital-af/03.jpg,images/brussels-digital-af/04.jpg,images/brussels-digital-af/05.jpg">Brussels / Digital AF!</li>
-        <li data-project="collection-nft-photographie-book" data-images="images/collection-nft-photographie-book/01.jpg,images/collection-nft-photographie-book/02.jpg,images/collection-nft-photographie-book/03.jpg,images/collection-nft-photographie-book/04.jpg,images/collection-nft-photographie-book/05.jpg">A Collection of NFT Photographie / Book</li>
-        <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Musée des Arts et Métiers Exhibition</li>
-        <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Exposition Musée Jacquemart-André</li>
-        <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">Sommet pour l'Action sur l'IA / Exhibition</li>
-        <li data-project="la-hune-exhibition" data-images="images/la-hune-exhibition/01.jpg,images/la-hune-exhibition/02.jpg,images/la-hune-exhibition/03.jpg,images/la-hune-exhibition/04.jpg">La Hune Exhibition</li>
-        <li data-project="abs-exhibition-lisbonne" data-images="images/abs-exhibition-lisbonne/01.png,images/abs-exhibition-lisbonne/02.png,images/abs-exhibition-lisbonne/03.png,images/abs-exhibition-lisbonne/04.png,images/abs-exhibition-lisbonne/05.png">ABS Exhibition — Lisbonne</li>
-        <li data-project="artverse-exhibition" data-images="images/artverse-exhibition/01.jpg,images/artverse-exhibition/02.jpg,images/artverse-exhibition/03.jpg">Artverse Exhibition</li>
-        <li data-project="artverse-event" data-images="images/artverse-event/01.png,images/artverse-event/02.png,images/artverse-event/03.png">Artverse Event</li>
-        <li data-project="nft-factory-exhibition" data-images="images/nft-factory-exhibition/01.jpg,images/nft-factory-exhibition/02.jpg,images/nft-factory-exhibition/03.jpg,images/nft-factory-exhibition/04.jpg,images/nft-factory-exhibition/05.jpg">NFT Factory Exhibition</li>
-        <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Ouverture NFT Factory</li>
-        <li data-project="nft-factory-event" data-images="images/nft-factory-event/F6ASEhAWcAAYoEr.jpeg,images/nft-factory-event/vernissage - shavonne wong.jpeg">NFT Factory Event</li>
-        <li data-project="nft-factory-pop-up-creation" data-images="images/nft-factory-pop-up-creation/01.jpg,images/nft-factory-pop-up-creation/02.jpg,images/nft-factory-pop-up-creation/03.jpg,images/nft-factory-pop-up-creation/04.jpg,images/nft-factory-pop-up-creation/05.jpg">NFT Factory Pop-Up Creation</li>
-        <li data-project="ledger-106-exhibition" data-images="images/ledger-106-exhibition/01.jpg,images/ledger-106-exhibition/02.jpg,images/ledger-106-exhibition/03.jpg,images/ledger-106-exhibition/04.jpg,images/ledger-106-exhibition/05.jpg">Ledger 106 Exhibition</li>
+        <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Musée Jacquemart-André</li>
+        <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Musée des Arts et Métiers</li>
+        <li data-project="la-hune-exhibition" data-images="images/la-hune-exhibition/01.jpg,images/la-hune-exhibition/02.jpg,images/la-hune-exhibition/03.jpg,images/la-hune-exhibition/04.jpg">La Hune</li>
+        <li data-project="ledger-106-exhibition" data-images="images/ledger-106-exhibition/01.jpg,images/ledger-106-exhibition/02.jpg,images/ledger-106-exhibition/03.jpg,images/ledger-106-exhibition/04.jpg,images/ledger-106-exhibition/05.jpg">Ledger 106</li>
+        <li data-project="collection-nft-photographie-book" data-images="images/collection-nft-photographie-book/01.jpg,images/collection-nft-photographie-book/02.jpg,images/collection-nft-photographie-book/03.jpg,images/collection-nft-photographie-book/04.jpg,images/collection-nft-photographie-book/05.jpg">A Collection of NFT Photographie</li>
+        <li data-project="abs-exhibition-lisbonne" data-images="images/abs-exhibition-lisbonne/01.png,images/abs-exhibition-lisbonne/02.png,images/abs-exhibition-lisbonne/03.png,images/abs-exhibition-lisbonne/04.png,images/abs-exhibition-lisbonne/05.png">ABS — Lisbonne</li>
+      </ul>
+
+      <!-- NFT Factory group -->
+      <div class="project-group-title" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">NFT Factory</div>
+      <ul class="project-sublist">
+        <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Ouverture</li>
+        <li data-project="nft-factory-exhibition" data-images="images/nft-factory-exhibition/01.jpg,images/nft-factory-exhibition/02.jpg,images/nft-factory-exhibition/03.jpg,images/nft-factory-exhibition/04.jpg,images/nft-factory-exhibition/05.jpg">Exhibition</li>
+        <li data-project="nft-factory-event" data-images="images/nft-factory-event/F6ASEhAWcAAYoEr.jpeg,images/nft-factory-event/vernissage - shavonne wong.jpeg">Event</li>
+        <li data-project="nft-factory-pop-up-creation" data-images="images/nft-factory-pop-up-creation/01.jpg,images/nft-factory-pop-up-creation/02.jpg,images/nft-factory-pop-up-creation/03.jpg,images/nft-factory-pop-up-creation/04.jpg,images/nft-factory-pop-up-creation/05.jpg">Pop-Up Creation</li>
+      </ul>
+
+      <!-- Artverse group -->
+      <div class="project-group-title" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">Artverse</div>
+      <ul class="project-sublist">
+        <li data-project="artverse-exhibition" data-images="images/artverse-exhibition/01.jpg,images/artverse-exhibition/02.jpg,images/artverse-exhibition/03.jpg">Exhibition</li>
+        <li data-project="artverse-event" data-images="images/artverse-event/01.png,images/artverse-event/02.png,images/artverse-event/03.png">Event</li>
       </ul>
 
       <!-- PERSONAL PROJECTS -->
@@ -979,7 +1221,7 @@ a {
   /* ==========================================================
      PROJECT HOVER (desktop preview) + CLICK (open gallery)
      ========================================================== */
-  var projectItems = document.querySelectorAll('#project-list li, #project-list-personal li');
+  var projectItems = document.querySelectorAll('#project-list li, .project-sublist li, #project-list-personal li');
   var hoverTimer = null;
   var hoverIndex = 0;
 
@@ -1243,6 +1485,279 @@ a {
     /* Start 3 parallel streams */
     loadNext(); loadNext(); loadNext();
   })();
+
+  /* ==========================================================
+     LANDING PAGE — RECRUITER COMPATIBILITY QUIZ
+     ========================================================== */
+  var quizQuestions = [
+    {
+      q: "What scale of events do you typically handle?",
+      answers: [
+        { text: "Small gatherings, under 100 people", score: 5, reaction: "Good to know. I can work at that scale too, but honestly I thrive when things get bigger." },
+        { text: "Medium events, 100 to 500 people", score: 8, reaction: "That\u2019s a solid range. Most of my Artverse and corporate work sits right there." },
+        { text: "Large-scale events, 500 to 5,000+", score: 10, reaction: "Now we\u2019re talking. At NFT Factory I regularly welcomed up to 5,000 visitors a day. That\u2019s my natural habitat." },
+        { text: "It varies, we need someone adaptable", score: 10, reaction: "Perfect. I\u2019ve done it all \u2014 intimate gallery openings, ministerial visits, 3-day festivals with 25 international artists in 3,000m\u00B2." }
+      ]
+    },
+    {
+      q: "Which sector does your organisation operate in?",
+      answers: [
+        { text: "Contemporary art & culture", score: 10, reaction: "That's where I started. Four years between gallery walls, building shows with international artists every single week." },
+        { text: "Luxury & fashion", score: 8, reaction: "I've produced events for LVMH, Balmain, and worked Fashion Week activations. I know how to handle that level of expectation." },
+        { text: "Web3 & tech", score: 10, reaction: "I literally built one of the first NFT galleries in the world, face a Beaubourg. I ran it for two years." },
+        { text: "Corporate & consulting", score: 8, reaction: "KPMG, Renault, Binance. I've produced events for all of them. I understand corporate requirements." }
+      ]
+    },
+    {
+      q: "Do you need someone who can manage a budget independently?",
+      answers: [
+        { text: "Yes, full ownership of budgets", score: 10, reaction: "I managed 500k euros annually at NFT Factory. I built budgets, negotiated vendors, and reported to direction." },
+        { text: "Shared responsibility with a team", score: 9, reaction: "That's how I work at Artverse right now. I co-manage with the team and flag anything that needs sign-off." },
+        { text: "No, budget is handled elsewhere", score: 7, reaction: "Works for me. I can focus entirely on the creative and operational side." },
+        { text: "Depends on the project", score: 9, reaction: "That's actually ideal. I adapt to the structure I'm given." }
+      ]
+    },
+    {
+      q: "How important is international experience for this role?",
+      answers: [
+        { text: "Essential, we work across borders", score: 10, reaction: "I've shipped artwork to the US and Asia, organised exhibitions in Lisbon, Brussels, Geneva, and New York." },
+        { text: "Nice to have but not required", score: 9, reaction: "It's part of my background anyway. Working with international artists has been my default since 2022." },
+        { text: "Mostly local, Paris or France", score: 8, reaction: "Fine by me. Paris is where most of my network lives anyway." },
+        { text: "Remote-first with occasional travel", score: 7, reaction: "I'm comfortable in either mode." }
+      ]
+    },
+    {
+      q: "What kind of profile are you looking for?",
+      answers: [
+        { text: "Primarily creative", score: 9, reaction: "I've curated weekly exhibitions, directed the artistic production of a photography book, designed a full set of playing cards. Creativity is not just a side skill for me." },
+        { text: "Primarily operational", score: 9, reaction: "300+ events. I know how to run things. Retroplanning, vendor management, on-site coordination. That's muscle memory." },
+        { text: "Both, someone who can do it all", score: 10, reaction: "That's actually what I am. At NFT Factory I was simultaneously the curator, the producer, and the manager." },
+        { text: "More strategic", score: 8, reaction: "I've built relationships with 128 founders, handled corporate partnerships with major brands. I can play that role." }
+      ]
+    },
+    {
+      q: "Do you need someone who can manage a team?",
+      answers: [
+        { text: "Yes, direct management", score: 10, reaction: "I managed a team of five at NFT Factory. Onboarding, scheduling, briefing, conflict resolution. I've done it." },
+        { text: "Project management, coordinating externals", score: 9, reaction: "Most of my freelance work is exactly that. Coordinating artists, venues, vendors, press. All external, all moving." },
+        { text: "No management needed", score: 7, reaction: "That works too. Sometimes it's good to just focus." },
+        { text: "Eventually, once they prove themselves", score: 8, reaction: "I like that approach. I'd aim to earn it." }
+      ]
+    },
+    {
+      q: "What languages does the role require?",
+      answers: [
+        { text: "French only", score: 8, reaction: "Native. Obviously." },
+        { text: "English required", score: 10, reaction: "Fluent. I work with international artists and institutions in English constantly. My CV is bilingual." },
+        { text: "French and English, plus others", score: 8, reaction: "French and English I can fully commit to. I'm honest about anything beyond that." },
+        { text: "Language skills are secondary", score: 9, reaction: "Then let's talk about everything else." }
+      ]
+    },
+    {
+      q: "How does your organisation typically work?",
+      answers: [
+        { text: "Fast-paced, always something happening", score: 10, reaction: "At NFT Factory we did 2 to 3 events per week. Fast-paced is the only pace I know." },
+        { text: "Project-based, intense then quieter", score: 9, reaction: "That's freelance life. I've been running on that rhythm for two years." },
+        { text: "Structured, with clear processes", score: 8, reaction: "I can work within structure. I actually build solid retroplannings. I just also know how to improvise." },
+        { text: "Startup energy, everyone wears many hats", score: 10, reaction: "That's where I grew up professionally. NFT Factory was a startup. I wore every hat." }
+      ]
+    },
+    {
+      q: "What matters most in a candidate's network?",
+      answers: [
+        { text: "Cultural institutions and museums", score: 10, reaction: "Institut Montaigne at Musee des Arts et Metiers, Musee Jacquemart-Andre. I've worked with both." },
+        { text: "Luxury brands and corporate clients", score: 9, reaction: "LVMH, Balmain, KPMG, Renault. Those relationships exist and they're real." },
+        { text: "The art market and galleries", score: 10, reaction: "Arab Bank Switzerland, Artverse, Yellow Korner, independent collectors. That world is mine." },
+        { text: "Tech and Web3 ecosystem", score: 9, reaction: "NFT Factory was the bridge between art and Web3. That community knows me." }
+      ]
+    },
+    {
+      q: "What do you value most in someone joining your team?",
+      answers: [
+        { text: "Reliability", score: 10, reaction: "I've never cancelled an event. Not once." },
+        { text: "Initiative", score: 10, reaction: "I built a pop-up concept from scratch, proposed new exhibition formats, created training programs nobody asked for." },
+        { text: "Adaptability", score: 10, reaction: "When you run 300+ events, unexpected is just part of the brief." },
+        { text: "Passion", score: 10, reaction: "I turned a 400m2 space into one of the most talked-about art venues in Paris because I genuinely loved what we were building." }
+      ]
+    }
+  ];
+
+  var quizState = { current: 0, totalScore: 0, maxScore: 0, active: false, answered: false };
+  var charWrap = document.getElementById('character-wrap');
+  var charSprite = document.getElementById('character-sprite');
+  var gifSrc = 'images/character-talking.gif';
+  var pngSrc = 'images/character.png';
+
+  function startMouthAnim() {
+    if (charSprite) charSprite.src = gifSrc + '?t=' + Date.now();
+  }
+  function stopMouthAnim() {
+    if (charSprite) charSprite.src = pngSrc;
+  }
+
+  /* Pick best available voices once loaded */
+  var questionVoice = null;
+  var reactionVoice = null;
+
+  function pickVoices() {
+    var voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+    /* For questions: female narrator voice */
+    var qPref = ['Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'];
+    for (var p = 0; p < qPref.length; p++) {
+      for (var i = 0; i < voices.length; i++) {
+        if (voices[i].name.indexOf(qPref[p]) >= 0 && voices[i].lang.indexOf('en') === 0) { questionVoice = voices[i]; break; }
+      }
+      if (questionVoice) break;
+    }
+    /* For reactions: male character voice */
+    var rPref = ['Daniel', 'Alex', 'Tom', 'James', 'Aaron', 'Gordon'];
+    for (var p = 0; p < rPref.length; p++) {
+      for (var i = 0; i < voices.length; i++) {
+        if (voices[i].name.indexOf(rPref[p]) >= 0 && voices[i].lang.indexOf('en') === 0) { reactionVoice = voices[i]; break; }
+      }
+      if (reactionVoice) break;
+    }
+    /* Fallback: just pick two different English voices */
+    if (!questionVoice || !reactionVoice) {
+      var enVoices = voices.filter(function(v) { return v.lang.indexOf('en') === 0; });
+      if (!questionVoice && enVoices.length > 0) questionVoice = enVoices[0];
+      if (!reactionVoice && enVoices.length > 1) reactionVoice = enVoices[1];
+      else if (!reactionVoice && enVoices.length > 0) reactionVoice = enVoices[0];
+    }
+  }
+  if ('speechSynthesis' in window) {
+    pickVoices();
+    window.speechSynthesis.onvoiceschanged = pickVoices;
+  }
+
+  /* Narrator reads questions — calm, clear */
+  function speakQuestion(text, cb) {
+    if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
+    window.speechSynthesis.cancel();
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.92;
+    utter.pitch = 1.0;
+    utter.volume = 0.85;
+    if (questionVoice) utter.voice = questionVoice;
+    utter.onend = function() { if (cb) cb(); };
+    window.speechSynthesis.speak(utter);
+  }
+
+  /* Character speaks reactions — natural, confident */
+  function speak(text, cb) {
+    if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
+    window.speechSynthesis.cancel();
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-GB';
+    utter.rate = 1.0;
+    utter.pitch = 1.0;
+    utter.volume = 0.95;
+    if (reactionVoice) utter.voice = reactionVoice;
+    startMouthAnim();
+    utter.onend = function() { stopMouthAnim(); if (cb) cb(); };
+    setTimeout(function() { stopMouthAnim(); }, 15000);
+    window.speechSynthesis.speak(utter);
+  }
+
+  window.startQuiz = function() {
+    var btn = document.getElementById('quiz-start-btn');
+    if (btn) btn.style.display = 'none';
+    quizState.current = 0;
+    quizState.totalScore = 0;
+    quizState.maxScore = 0;
+    quizState.active = true;
+    showQuestion();
+  };
+
+  function showQuestion() {
+    var bubble = document.getElementById('quiz-bubble');
+    var qEl = document.getElementById('quiz-question');
+    var bEl = document.getElementById('quiz-buttons');
+    var fEl = document.getElementById('quiz-feedback');
+    var sEl = document.getElementById('quiz-score');
+
+    if (quizState.current >= quizQuestions.length) {
+      var pct = Math.round((quizState.totalScore / quizState.maxScore) * 100);
+      var msg = '';
+      if (pct >= 90) msg = "We're basically already colleagues. Let's talk.\ngraniertitou@gmail.com";
+      else if (pct >= 75) msg = "Strong match. I'd love to show you what I can bring to your team.";
+      else if (pct >= 60) msg = "There's real overlap here. Worth a conversation.";
+      else if (pct >= 40) msg = "Not a perfect fit on paper, but I've surprised people before.";
+      else msg = "Maybe not this time. But keep me in mind.";
+
+      if (pct >= 60 && charSprite) charSprite.src = 'images/character-handshake.png';
+
+      qEl.innerHTML = '';
+      fEl.className = '';
+      fEl.id = 'quiz-feedback';
+      fEl.textContent = '';
+      sEl.textContent = '';
+      bEl.innerHTML = '<div id="quiz-final-score">' + pct + '%</div>' +
+        '<div id="quiz-final-msg">' + msg.replace('\n', '<br>') + '</div>' +
+        '<a class="quiz-profile-link" href="https://portfolio-index-production.up.railway.app/" target="_blank" onclick="event.stopPropagation();">View full profile</a>' +
+        '<button onclick="event.stopPropagation(); restartQuiz();" style="margin-top:6px;">Start over</button>';
+      speak(msg.replace('\n', '. '));
+      return;
+    }
+
+    var question = quizQuestions[quizState.current];
+    quizState.answered = false;
+    bubble.classList.add('visible');
+    fEl.className = '';
+    fEl.id = 'quiz-feedback';
+    fEl.textContent = '';
+    sEl.textContent = (quizState.current + 1) + ' / ' + quizQuestions.length;
+    qEl.textContent = question.q;
+
+    var html = '';
+    question.answers.forEach(function(a, i) {
+      html += '<button onclick="event.stopPropagation(); answerQuiz(' + i + ');">' + a.text + '</button>';
+    });
+    bEl.innerHTML = html;
+    speakQuestion(question.q);
+  }
+
+  window.answerQuiz = function(idx) {
+    if (!quizState.active || quizState.answered) return;
+    quizState.answered = true;
+
+    var question = quizQuestions[quizState.current];
+    var chosen = question.answers[idx];
+    var maxForQ = Math.max.apply(null, question.answers.map(function(a) { return a.score; }));
+    quizState.totalScore += chosen.score;
+    quizState.maxScore += maxForQ;
+
+    var btns = document.querySelectorAll('#quiz-buttons button');
+    btns.forEach(function(b, i) {
+      if (i === idx) b.classList.add('selected');
+      else b.classList.add('disabled');
+    });
+
+    var fEl = document.getElementById('quiz-feedback');
+    fEl.textContent = chosen.reaction;
+    fEl.classList.add('show');
+
+    speak(chosen.reaction, function() {
+      quizState.current++;
+      setTimeout(showQuestion, 800);
+    });
+  };
+
+  window.restartQuiz = function() {
+    if (charSprite) charSprite.src = pngSrc;
+    startQuiz();
+  };
+
+  window.closeQuiz = function() {
+    var bubble = document.getElementById('quiz-bubble');
+    var btn = document.getElementById('quiz-start-btn');
+    bubble.classList.remove('visible');
+    quizState.active = false;
+    if (btn) btn.style.display = '';
+    if (charSprite) charSprite.src = pngSrc;
+  };
 
 })();
 </script>
