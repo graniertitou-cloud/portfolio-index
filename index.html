@@ -1662,13 +1662,33 @@ a {
     window.speechSynthesis.onvoiceschanged = pickVoices;
   }
 
+  /* Welcome message on first user interaction */
+  var welcomePlayed = false;
+  function playWelcome() {
+    if (welcomePlayed) return;
+    welcomePlayed = true;
+    if (!('speechSynthesis' in window)) return;
+    var utter = new SpeechSynthesisUtterance("Welcome on Titou's portfolio");
+    utter.lang = 'en-GB';
+    utter.rate = 1.25;
+    utter.pitch = 1.0;
+    utter.volume = 0.95;
+    if (reactionVoice) utter.voice = reactionVoice;
+    startMouthAnim();
+    utter.onend = function() { stopMouthAnim(); };
+    setTimeout(function() { stopMouthAnim(); }, 5000);
+    window.speechSynthesis.speak(utter);
+  }
+  document.addEventListener('click', playWelcome, { once: false });
+  document.addEventListener('keydown', playWelcome, { once: false });
+
   /* Narrator reads questions — calm, clear */
   function speakQuestion(text, cb) {
     if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
     window.speechSynthesis.cancel();
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'en-US';
-    utter.rate = 0.92;
+    utter.rate = 1.17;
     utter.pitch = 1.0;
     utter.volume = 0.85;
     if (questionVoice) utter.voice = questionVoice;
@@ -1682,7 +1702,7 @@ a {
     window.speechSynthesis.cancel();
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'en-GB';
-    utter.rate = 1.0;
+    utter.rate = 1.25;
     utter.pitch = 1.0;
     utter.volume = 0.95;
     if (reactionVoice) utter.voice = reactionVoice;
