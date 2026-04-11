@@ -1668,9 +1668,9 @@ a {
     if (welcomePlayed) return;
     welcomePlayed = true;
     if (!('speechSynthesis' in window)) return;
-    var utter = new SpeechSynthesisUtterance("Welcome on Titou's portfolio");
+    var utter = new SpeechSynthesisUtterance("Welcome on Teetoo's portfolio");
     utter.lang = 'en-GB';
-    utter.rate = 1.25;
+    utter.rate = 1.1;
     utter.pitch = 1.0;
     utter.volume = 0.95;
     if (reactionVoice) utter.voice = reactionVoice;
@@ -1688,7 +1688,7 @@ a {
     window.speechSynthesis.cancel();
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'en-US';
-    utter.rate = 1.17;
+    utter.rate = 1.05;
     utter.pitch = 1.0;
     utter.volume = 0.85;
     if (questionVoice) utter.voice = questionVoice;
@@ -1702,7 +1702,7 @@ a {
     window.speechSynthesis.cancel();
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'en-GB';
-    utter.rate = 1.25;
+    utter.rate = 1.1;
     utter.pitch = 1.0;
     utter.volume = 0.95;
     if (reactionVoice) utter.voice = reactionVoice;
