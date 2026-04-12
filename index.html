@@ -1768,8 +1768,6 @@ a {
       else if (pct >= 40) msg = "Not a perfect fit on paper, but I've surprised people before.";
       else msg = "Maybe not this time. But keep me in mind.";
 
-      if (pct >= 60 && charSprite) charSprite.src = 'images/character-handshake.png';
-
       qEl.innerHTML = '';
       fEl.className = '';
       fEl.id = 'quiz-feedback';
@@ -1779,6 +1777,13 @@ a {
         '<div id="quiz-final-msg">' + msg.replace('\n', '<br>') + '</div>' +
         '<a class="quiz-profile-link" href="https://portfolio-index-production.up.railway.app/" target="_blank" onclick="event.stopPropagation();">View full profile</a>' +
         '<button onclick="event.stopPropagation(); restartQuiz();" style="margin-top:6px;">Start over</button>';
+
+      if (pct >= 60 && charSprite) {
+        /* Show handshake image and lock it — override mouth anim */
+        charSprite.src = 'images/character-handshake.png';
+        pngSrc = 'images/character-handshake.png';
+        gifSrc = 'images/character-handshake.png';
+      }
       speak(msg.replace('\n', '. '));
       return;
     }
@@ -1842,6 +1847,8 @@ a {
   });
 
   window.restartQuiz = function() {
+    pngSrc = 'images/character.png';
+    gifSrc = 'images/character-talking.gif';
     if (charSprite) charSprite.src = pngSrc;
     startQuiz();
   };
