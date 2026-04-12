@@ -123,146 +123,175 @@ a {
 }
 
 /* Quiz speech bubble — attached to character head */
+/* ============================================================
+   QUIZ — Swiss minimal 2026
+   ============================================================ */
 #quiz-bubble {
   position: absolute;
-  right: calc(5% + 140px);
-  top: 4vh;
-  max-width: 380px;
-  max-height: 88vh;
+  right: calc(5% + 160px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  max-height: 80vh;
   overflow-y: auto;
-  background: #fff;
+  background: transparent;
   color: #000;
   font-family: 'Code Saver', monospace;
-  font-size: 12px;
-  line-height: 1.6;
-  padding: 18px 22px;
-  border: 1px solid #000;
+  font-size: 11px;
+  line-height: 1.7;
+  padding: 0;
+  border: none;
   z-index: 10;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 300ms ease, visibility 0s 300ms;
+  transition: opacity 400ms ease, visibility 0s 400ms;
   pointer-events: auto;
 }
 #quiz-bubble.visible {
   opacity: 1;
   visibility: visible;
-  transition: opacity 300ms ease, visibility 0s 0s;
+  transition: opacity 400ms ease, visibility 0s 0s;
 }
-/* Triangle pointing down-right toward character head */
-#quiz-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -11px;
-  right: 30px;
-  width: 0; height: 0;
-  border-top: 11px solid #000;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-}
+#quiz-bubble::after,
 #quiz-bubble::before {
-  content: '';
-  position: absolute;
-  bottom: -9px;
-  right: 31px;
-  width: 0; height: 0;
-  border-top: 10px solid #fff;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  z-index: 1;
+  display: none;
 }
 #quiz-question {
-  margin-bottom: 12px;
-  font-size: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  border-bottom: 1px solid #000;
+  padding-bottom: 14px;
 }
 #quiz-buttons {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
 }
 #quiz-buttons button {
   width: 100%;
-  padding: 8px 12px;
+  padding: 12px 0;
   font-family: 'Code Saver', monospace;
   font-size: 10px;
-  letter-spacing: 0.08em;
-  border: 1px solid #000;
-  background: #fff;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  background: transparent;
   color: #000;
   cursor: pointer;
   text-align: left;
-  transition: background 200ms, color 200ms;
+  transition: padding-left 200ms ease, opacity 200ms ease;
+  position: relative;
 }
 #quiz-buttons button:hover {
-  background: #000;
-  color: #fff;
+  padding-left: 12px;
+  background: transparent;
+  color: #000;
+}
+#quiz-buttons button:hover::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+}
+#quiz-buttons button:last-child {
+  border-bottom: none;
 }
 #quiz-buttons button.disabled {
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.15;
 }
 #quiz-buttons button.selected {
-  background: #000;
-  color: #fff;
+  background: transparent;
+  color: #000;
+  font-weight: 700;
   pointer-events: none;
+  padding-left: 12px;
+}
+#quiz-buttons button.selected::before {
+  content: '●';
+  position: absolute;
+  left: 0;
+  font-size: 6px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 #quiz-feedback {
-  margin-top: 10px;
-  font-size: 11px;
-  line-height: 1.5;
+  margin-top: 16px;
+  font-size: 10px;
+  line-height: 1.6;
   opacity: 0;
-  transition: opacity 300ms;
+  transition: opacity 400ms ease;
+  font-style: italic;
+  color: #444;
 }
 #quiz-feedback.show { opacity: 1; }
 #quiz-score {
-  font-size: 10px;
-  opacity: 0.4;
-  margin-top: 8px;
+  font-size: 9px;
+  opacity: 0.35;
+  margin-top: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 #quiz-final-score {
-  font-size: 48px;
+  font-size: 72px;
   font-weight: 700;
-  text-align: center;
-  margin: 10px 0;
+  text-align: left;
+  margin: 0 0 8px 0;
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
 #quiz-final-msg {
-  font-size: 12px;
-  text-align: center;
-  margin-bottom: 14px;
-  line-height: 1.5;
+  font-size: 11px;
+  text-align: left;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  color: #444;
 }
 #quiz-buttons a.quiz-profile-link {
-  display: block;
-  width: 100%;
-  padding: 8px 12px;
+  display: inline-block;
+  padding: 10px 0;
   font-family: 'Code Saver', monospace;
   font-size: 10px;
-  letter-spacing: 0.08em;
-  border: 1px solid #000;
-  background: #000;
-  color: #fff;
-  text-align: center;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  color: #000;
+  text-align: left;
   text-decoration: none;
   cursor: pointer;
+  transition: padding-left 200ms ease;
+}
+#quiz-buttons a.quiz-profile-link:hover {
+  padding-left: 12px;
 }
 #quiz-start-btn {
   position: absolute;
-  right: calc(5% + 40px);
-  top: 6vh;
+  right: calc(5% + 60px);
+  top: 50%;
+  transform: translateY(-50%);
   font-family: 'Code Saver', monospace;
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  background: #fff;
+  background: transparent;
   color: #000;
-  border: 1px solid #000;
-  padding: 8px 20px;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 6px 0;
   cursor: pointer;
   z-index: 3;
   pointer-events: auto;
-  transition: opacity 200ms;
+  transition: opacity 200ms, padding-left 200ms;
 }
-#quiz-start-btn:hover { opacity: 0.6; }
+#quiz-start-btn:hover {
+  opacity: 0.5;
+}
 .landing-title {
   font-weight: 400;
   font-size: 16px;
@@ -722,25 +751,24 @@ a {
     transform: translateX(-50%);
     bottom: 40px;
   }
-  /* Quiz bubble mobile — full width top overlay */
+  /* Quiz bubble mobile */
   #quiz-bubble {
     position: fixed;
-    right: auto;
-    left: 4%;
-    right: 4%;
+    left: 6%;
+    right: 6%;
     top: auto;
-    bottom: 38vh;
-    max-width: 92vw;
-    width: 92vw;
-    max-height: 50vh;
+    bottom: 34vh;
+    transform: none;
+    width: 88vw;
+    max-width: 88vw;
+    max-height: 45vh;
     overflow-y: auto;
     font-size: 11px;
     z-index: 20;
   }
-  #quiz-bubble::after { display: none; }
   #quiz-buttons button {
     font-size: 10px;
-    padding: 10px 12px;
+    padding: 10px 0;
   }
   #quiz-start-btn {
     position: fixed;
