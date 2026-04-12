@@ -8,8 +8,6 @@
 <style>
 /* ============================================================
    FONT FACE
-   Place CodeSaver.woff2 in ./fonts/ folder.
-   Fallback: monospace
    ============================================================ */
 @font-face {
   font-family: 'Code Saver';
@@ -49,8 +47,6 @@ a {
 
 /* ============================================================
    PAGE SYSTEM
-   All pages live in the DOM. Only .active is visible.
-   Transitions handled via opacity.
    ============================================================ */
 .page {
   position: fixed;
@@ -70,11 +66,11 @@ a {
 }
 
 /* ============================================================
-   PAGE 1 — LANDING (white)
+   PAGE 1 — LANDING
    ============================================================ */
 #page-landing {
-  background: #FFFFFF;
-  color: #000000;
+  background: #fff;
+  color: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +87,6 @@ a {
   line-height: 1.1;
   cursor: default;
 }
-/* Portrait photo on name hover — appears just above the name */
 .landing-portrait {
   position: absolute;
   max-height: 200px;
@@ -100,14 +95,49 @@ a {
   visibility: hidden;
   transition: opacity 200ms ease, visibility 0s 200ms;
   pointer-events: none;
-  /* positioned via JS relative to the name element */
 }
 .landing-portrait.visible {
   opacity: 1;
   visibility: visible;
   transition: opacity 200ms ease, visibility 0s 0s;
 }
-/* Voxel character on landing page */
+.landing-title {
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.landing-contact {
+  margin-top: 32px;
+}
+.landing-contact a {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  line-height: 1.8;
+}
+.landing-contact a:hover {
+  text-decoration: underline;
+}
+.landing-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Voxel character */
 #character-wrap {
   position: absolute;
   right: 2%;
@@ -122,15 +152,13 @@ a {
   display: block;
 }
 
-/* Quiz speech bubble — attached to character head */
 /* ============================================================
-   QUIZ — Swiss minimal 2026
+   QUIZ — Swiss minimal
    ============================================================ */
 #quiz-bubble {
   position: absolute;
   right: calc(5% + 280px);
   top: 6vh;
-  transform: none;
   width: 320px;
   max-height: 80vh;
   overflow-y: auto;
@@ -152,10 +180,6 @@ a {
   visibility: visible;
   transition: opacity 400ms ease, visibility 0s 0s;
 }
-#quiz-bubble::after,
-#quiz-bubble::before {
-  display: none;
-}
 #quiz-question {
   margin-bottom: 20px;
   font-size: 13px;
@@ -168,7 +192,6 @@ a {
 #quiz-buttons {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 #quiz-buttons button {
   width: 100%;
@@ -188,11 +211,9 @@ a {
 }
 #quiz-buttons button:hover {
   padding-left: 12px;
-  background: transparent;
-  color: #000;
 }
 #quiz-buttons button:hover::before {
-  content: '→';
+  content: '\2192';
   position: absolute;
   left: 0;
   font-size: 10px;
@@ -205,14 +226,12 @@ a {
   opacity: 0.15;
 }
 #quiz-buttons button.selected {
-  background: transparent;
-  color: #000;
   font-weight: 700;
   pointer-events: none;
   padding-left: 12px;
 }
 #quiz-buttons button.selected::before {
-  content: '●';
+  content: '\25CF';
   position: absolute;
   left: 0;
   font-size: 6px;
@@ -262,7 +281,6 @@ a {
   border-bottom: 1px solid #000;
   background: transparent;
   color: #000;
-  text-align: left;
   text-decoration: none;
   cursor: pointer;
   transition: padding-left 200ms ease;
@@ -274,7 +292,6 @@ a {
   position: absolute;
   right: calc(5% + 280px);
   top: 6vh;
-  transform: none;
   font-family: 'Code Saver', monospace;
   font-size: 14px;
   font-weight: 700;
@@ -290,61 +307,20 @@ a {
   pointer-events: auto;
   transition: opacity 200ms;
 }
-#quiz-start-btn:hover {
-  opacity: 0.5;
-}
-.landing-title {
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-top: 4px;
-}
-.landing-contact {
-  margin-top: 32px;
-}
-.landing-contact a {
-  display: block;
-  font-weight: 400;
-  font-size: 14px;
-  color: #000000;
-  line-height: 1.8;
-}
-.landing-contact a:hover {
-  text-decoration: underline;
-}
-
-/* Pulsing "Work" hint at bottom */
-.landing-hint {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-weight: 700;
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
+#quiz-start-btn:hover { opacity: 0.5; }
 
 /* ============================================================
-   PAGE 2 — WORK (dark)
+   PAGE 2 — WORK
    ============================================================ */
 #page-work {
-  background: #FFFFFF;
-  color: #000000;
+  background: #fff;
+  color: #000;
 }
 .work-layout {
   display: flex;
   width: 100%;
   min-height: 100vh;
 }
-
-/* Back link (top left) */
 .back-link {
   position: absolute;
   top: 28px;
@@ -352,12 +328,10 @@ a {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: #000000;
+  color: #000;
   z-index: 10;
 }
-.back-link:hover {
-  text-decoration: underline;
-}
+.back-link:hover { text-decoration: underline; }
 
 /* Left column — project list */
 .work-left {
@@ -382,9 +356,8 @@ a {
   cursor: pointer;
   position: relative;
 }
-.project-list li:hover {
-  opacity: 0.6;
-}
+.project-list li:hover { opacity: 0.6; }
+
 /* Project groups (collapsible) */
 .project-group-title {
   font-size: 13px;
@@ -393,11 +366,8 @@ a {
   line-height: 2.4;
   cursor: pointer;
   position: relative;
-  list-style: none;
 }
-.project-group-title:hover {
-  opacity: 0.6;
-}
+.project-group-title:hover { opacity: 0.6; }
 .project-group-title::before {
   content: '+';
   display: inline-block;
@@ -406,9 +376,7 @@ a {
   opacity: 0.4;
   transition: transform 200ms;
 }
-.project-group-title.open::before {
-  content: '−';
-}
+.project-group-title.open::before { content: '\2212'; }
 .project-sublist {
   list-style: none;
   max-height: 0;
@@ -416,9 +384,7 @@ a {
   transition: max-height 300ms ease;
   padding-left: 18px;
 }
-.project-sublist.open {
-  max-height: 500px;
-}
+.project-sublist.open { max-height: 500px; }
 .project-sublist li {
   font-size: 12px;
   text-transform: uppercase;
@@ -427,11 +393,9 @@ a {
   cursor: pointer;
   opacity: 0.7;
 }
-.project-sublist li:hover {
-  opacity: 1;
-}
+.project-sublist li:hover { opacity: 1; }
 
-/* Right column — navigation (top-right) */
+/* Right column — navigation */
 .work-right {
   width: 50%;
   display: flex;
@@ -451,12 +415,10 @@ a {
   line-height: 3.5;
   cursor: pointer;
 }
-.nav-list li:hover {
-  opacity: 0.6;
-}
+.nav-list li:hover { opacity: 0.6; }
 
 /* ============================================================
-   PROJECT IMAGE OVERLAY (fixed center)
+   PROJECT IMAGE OVERLAY
    ============================================================ */
 .project-image-overlay {
   position: fixed;
@@ -485,82 +447,6 @@ a {
   max-height: 70vh;
   display: block;
 }
-/* Gallery arrows */
-.gallery-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  font-family: 'Code Saver', monospace;
-  color: #000000;
-  cursor: pointer;
-  opacity: 0.3;
-  z-index: 52;
-  user-select: none;
-  letter-spacing: 0;
-  display: none;
-  padding: 16px;
-}
-.gallery-arrow:hover {
-  opacity: 1;
-}
-.gallery-arrow-left {
-  left: 24px;
-}
-.gallery-arrow-right {
-  right: 24px;
-}
-/* Gallery close button */
-.gallery-close {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  font-size: 18px;
-  font-family: 'Code Saver', monospace;
-  color: #000000;
-  cursor: pointer;
-  opacity: 0.3;
-  z-index: 52;
-  display: none;
-  padding: 8px;
-}
-.gallery-close:hover {
-  opacity: 1;
-}
-/* Gallery fullscreen button */
-.gallery-fullscreen {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  font-size: 11px;
-  font-family: 'Code Saver', monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #000000;
-  cursor: pointer;
-  opacity: 0.3;
-  z-index: 52;
-  display: none;
-  padding: 8px;
-}
-.gallery-fullscreen:hover {
-  opacity: 1;
-}
-/* Gallery counter */
-.gallery-counter {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  font-family: 'Code Saver', monospace;
-  letter-spacing: 0.15em;
-  color: #000000;
-  opacity: 0.4;
-  z-index: 52;
-  display: none;
-}
-/* Fullscreen mode */
 .project-image-overlay.fullscreen {
   max-width: 100vw;
   max-height: 100vh;
@@ -572,32 +458,92 @@ a {
   max-width: 95vw;
   max-height: 95vh;
 }
-/* Gallery backdrop */
+
+/* Gallery controls */
+.gallery-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-family: 'Code Saver', monospace;
+  color: #000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  user-select: none;
+  letter-spacing: 0;
+  display: none;
+  padding: 16px;
+}
+.gallery-arrow:hover { opacity: 1; }
+.gallery-arrow-left { left: 24px; }
+.gallery-arrow-right { right: 24px; }
+.gallery-close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  font-size: 18px;
+  font-family: 'Code Saver', monospace;
+  color: #000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  display: none;
+  padding: 8px;
+}
+.gallery-close:hover { opacity: 1; }
+.gallery-fullscreen {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  font-size: 11px;
+  font-family: 'Code Saver', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #000;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 52;
+  display: none;
+  padding: 8px;
+}
+.gallery-fullscreen:hover { opacity: 1; }
+.gallery-counter {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-family: 'Code Saver', monospace;
+  letter-spacing: 0.15em;
+  color: #000;
+  opacity: 0.4;
+  z-index: 52;
+  display: none;
+}
 .gallery-backdrop {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255,255,255,0.95);
   z-index: 49;
   display: none;
 }
-
-/* Placeholder styling */
 .placeholder-img {
-  background: #E0E0E0;
+  background: #e0e0e0;
   aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Code Saver', monospace;
   font-size: 14px;
-  color: #000000;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 /* ============================================================
-   NAVIGATION PREVIEW PANEL (fixed center)
+   NAVIGATION PREVIEW PANEL
    ============================================================ */
 .nav-preview {
   position: fixed;
@@ -607,9 +553,8 @@ a {
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 1);
-  padding: 48px;
-  padding-top: 36px;
+  background: #fff;
+  padding: 36px 48px 48px;
   text-align: center;
   z-index: 100;
   opacity: 0;
@@ -634,36 +579,21 @@ a {
   display: none;
   z-index: 101;
 }
-.nav-preview-close:hover {
-  opacity: 1;
-}
-.nav-preview.locked .nav-preview-close {
-  display: block;
-}
+.nav-preview-close:hover { opacity: 1; }
+.nav-preview.locked .nav-preview-close { display: block; }
 .nav-preview p,
 .nav-preview a {
   font-size: 13px;
   font-weight: 400;
-  color: #000000;
+  color: #000;
   line-height: 1.8;
 }
-.nav-preview a:hover {
-  text-decoration: underline;
-}
-
-/* Contact preview: more spacing */
+.nav-preview a:hover { text-decoration: underline; }
 .preview-contact a {
   display: block;
   line-height: 3;
 }
-
-/* CV preview */
-.preview-cv {
-  max-width: 600px;
-  padding: 24px;
-}
-
-/* Media preview */
+.preview-cv { max-width: 600px; padding: 24px; }
 .preview-media a {
   display: block;
   line-height: 2.6;
@@ -673,11 +603,11 @@ a {
 }
 
 /* ============================================================
-   PAGE 3 — MEDIA (dark)
+   PAGE 3 — MEDIA
    ============================================================ */
 #page-media {
-  background: #FFFFFF;
-  color: #000000;
+  background: #fff;
+  color: #000;
 }
 .media-back {
   position: absolute;
@@ -686,12 +616,10 @@ a {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: #000000;
+  color: #000;
   z-index: 10;
 }
-.media-back:hover {
-  text-decoration: underline;
-}
+.media-back:hover { text-decoration: underline; }
 .media-title {
   font-weight: 700;
   font-size: 32px;
@@ -707,44 +635,24 @@ a {
   letter-spacing: 0.1em;
   line-height: 3;
 }
-.media-links li a:hover {
-  text-decoration: underline;
-}
+.media-links li a:hover { text-decoration: underline; }
 
 /* ============================================================
-   MOBILE — screens under 768px
+   MOBILE — max 768px
    ============================================================ */
 @media (max-width: 768px) {
-  /* Allow scrolling on mobile */
   html, body {
     overflow: auto;
     overflow-x: hidden;
   }
+  .landing-content { padding: 0 24px; }
+  .landing-name { font-size: 28px; }
+  .landing-title { font-size: 11px; }
+  .landing-contact { margin-top: 24px; }
+  .landing-contact a { font-size: 12px; }
+  .landing-hint { bottom: calc(30vh + 10px) !important; }
+  .landing-portrait { display: none !important; }
 
-  /* Page 1 mobile */
-  .landing-content {
-    padding: 0 24px;
-  }
-  .landing-name {
-    font-size: 28px;
-  }
-  .landing-title {
-    font-size: 11px;
-  }
-  .landing-contact {
-    margin-top: 24px;
-  }
-  .landing-contact a {
-    font-size: 12px;
-  }
-  .landing-hint {
-    bottom: 24px;
-  }
-  /* Hide portrait on mobile (no hover) */
-  .landing-portrait {
-    display: none !important;
-  }
-  /* Character mobile — right side */
   #character-wrap {
     height: 55vh;
     right: -5%;
@@ -752,7 +660,6 @@ a {
     transform: none;
     bottom: 0;
   }
-  /* Quiz bubble mobile */
   #quiz-bubble {
     position: fixed;
     left: 6%;
@@ -783,68 +690,27 @@ a {
     font-weight: 700;
     z-index: 20;
   }
-  /* Landing content — push up to make room for character */
-  #page-landing .landing-content {
-    margin-top: -10vh;
-  }
-  .landing-hint {
-    bottom: calc(30vh + 10px) !important;
-  }
+  #page-landing .landing-content { margin-top: -10vh; }
 
-  /* Page 2 mobile: single column */
-  .work-layout {
-    flex-direction: column;
-  }
-  .back-link {
-    top: 20px;
-    left: 20px;
-  }
-  .work-left {
-    width: 100%;
-    padding: 60px 20px 24px 20px;
-  }
-  .work-right {
-    width: 100%;
-    align-items: flex-start;
-    padding: 24px 20px 60px 20px;
-  }
-  .nav-list {
-    text-align: left;
-  }
-  .nav-list li {
-    font-size: 13px;
-    line-height: 3;
-  }
-  .project-list li {
-    font-size: 12px;
-    line-height: 2.2;
-  }
+  .work-layout { flex-direction: column; }
+  .back-link { top: 20px; left: 20px; }
+  .work-left { width: 100%; padding: 60px 20px 24px 20px; }
+  .work-right { width: 100%; align-items: flex-start; padding: 24px 20px 60px 20px; }
+  .nav-list { text-align: left; }
+  .nav-list li { font-size: 13px; line-height: 3; }
+  .project-list li { font-size: 12px; line-height: 2.2; }
 
-  /* Project images: use gallery on mobile too */
-  .project-image-overlay {
-    max-width: 90vw;
-    max-height: 70vh;
-  }
+  .project-image-overlay { max-width: 90vw; max-height: 70vh; }
   .project-image-overlay img,
-  .project-image-overlay video {
-    max-width: 90vw;
-    max-height: 70vh;
-  }
-  .project-image-overlay.fullscreen {
-    max-width: 98vw;
-    max-height: 98vh;
-  }
+  .project-image-overlay video { max-width: 90vw; max-height: 70vh; }
+  .project-image-overlay.fullscreen { max-width: 98vw; max-height: 98vh; }
   .project-image-overlay.fullscreen img,
-  .project-image-overlay.fullscreen video {
-    max-width: 98vw;
-    max-height: 98vh;
-  }
+  .project-image-overlay.fullscreen video { max-width: 98vw; max-height: 98vh; }
   .gallery-arrow-left { left: 8px; }
   .gallery-arrow-right { right: 8px; }
   .gallery-close { top: 16px; right: 16px; }
   .gallery-fullscreen { bottom: 16px; right: 16px; }
 
-  /* Nav preview inline on mobile */
   .nav-preview {
     position: static;
     transform: none;
@@ -862,74 +728,35 @@ a {
     visibility: visible;
     pointer-events: auto;
   }
-  .nav-preview p {
-    font-size: 13px;
-    line-height: 1.7;
-  }
-  .preview-cv img {
-    max-height: none;
-    width: 100%;
-  }
-  .preview-contact a {
-    font-size: 13px;
-  }
-  .preview-media a {
-    font-size: 12px;
-  }
+  .nav-preview p { font-size: 13px; line-height: 1.7; }
+  .preview-cv img { max-height: none; width: 100%; }
+  .preview-contact a { font-size: 13px; }
+  .preview-media a { font-size: 12px; }
 
-  /* Page 3 — Media mobile */
-  .media-back {
-    top: 20px;
-    left: 20px;
-  }
-  .media-title {
-    font-size: 24px;
-    padding: 60px 20px 24px 20px;
-  }
-  .media-links {
-    padding: 0 20px 60px 20px;
-  }
-  .media-links li {
-    font-size: 12px;
-    line-height: 2.6;
-  }
+  .media-back { top: 20px; left: 20px; }
+  .media-title { font-size: 24px; padding: 60px 20px 24px 20px; }
+  .media-links { padding: 0 20px 60px 20px; }
+  .media-links li { font-size: 12px; line-height: 2.6; }
 }
 
-/* ============================================================
-   SMALL MOBILE — screens under 400px
-   ============================================================ */
 @media (max-width: 400px) {
-  .landing-name {
-    font-size: 22px;
-  }
-  .landing-title {
-    font-size: 10px;
-  }
-  .project-list li {
-    font-size: 11px;
-    line-height: 2;
-  }
-  .nav-list li {
-    font-size: 12px;
-  }
+  .landing-name { font-size: 22px; }
+  .landing-title { font-size: 10px; }
+  .project-list li { font-size: 11px; line-height: 2; }
+  .nav-list li { font-size: 12px; }
 }
 
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     PAGE 1 — LANDING
-     Click anywhere to go to Page 2.
-     ============================================================ -->
+<!-- PAGE 1 — LANDING -->
 <div id="page-landing" class="page active" onclick="goToPage('page-work')">
   <div class="landing-content">
     <div class="landing-name" id="landing-name">Titou Granier</div>
-    <div class="landing-title">Event & Cultural Project Manager</div>
+    <div class="landing-title">Event &amp; Cultural Project Manager</div>
     <div class="landing-contact">
-      <!-- Phone link -->
       <a href="tel:+33620370036" onclick="event.stopPropagation()">+33 6 20 37 00 36</a>
-      <!-- Email link -->
       <a href="mailto:graniertitou@gmail.com" onclick="event.stopPropagation()">graniertitou@gmail.com</a>
     </div>
   </div>
@@ -947,40 +774,25 @@ a {
   </div>
 </div>
 
-<!-- ============================================================
-     PAGE 2 — WORK (Main Portfolio Hub)
-     ============================================================ -->
+<!-- PAGE 2 — WORK -->
 <div id="page-work" class="page">
-  <!-- Back to landing -->
-  <a href="#" class="back-link" onclick="event.preventDefault(); goToPage('page-landing')">← COME BACK</a>
+  <a href="#" class="back-link" onclick="event.preventDefault(); goToPage('page-landing');">&larr; COME BACK</a>
 
   <div class="work-layout">
-
-    <!-- LEFT COLUMN — Project List -->
     <div class="work-left">
-      <!-- ====================================================
-           PROJECTS
-           To change a project name: edit the data-project and
-           the text inside the <li>.
-           To add an image: replace the placeholder div inside
-           the corresponding template below with an <img> tag.
-           ==================================================== -->
-
-      <!-- PROFESSIONAL PROJECTS -->
       <div class="section-label">Professional Projects</div>
       <ul class="project-list" id="project-list">
         <li data-project="paris-photo" data-images="images/paris-photo/DSC02669.jpg,images/paris-photo/DSC02743.jpg,images/paris-photo/DSC02747.jpg,images/paris-photo/DSC02803.jpg">Paris Photo</li>
         <li data-project="sommet-action-ia-exhibition" data-images="images/sommet-action-ia-exhibition/01.jpg,images/sommet-action-ia-exhibition/02.jpg,images/sommet-action-ia-exhibition/03.jpg,images/sommet-action-ia-exhibition/04.jpg,images/sommet-action-ia-exhibition/05.jpg">AI Action Summit</li>
         <li data-project="brussels-digital-af" data-images="images/brussels-digital-af/01.jpg,images/brussels-digital-af/02.jpg,images/brussels-digital-af/03.jpg,images/brussels-digital-af/04.jpg,images/brussels-digital-af/05.jpg">Brussels / Digital AF!</li>
-        <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Musée Jacquemart-André</li>
-        <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Musée des Arts et Métiers</li>
+        <li data-project="jacquemart-andre" data-images="images/jacquemart-andre/01.jpg,images/jacquemart-andre/02.jpg,images/jacquemart-andre/03.jpg,images/jacquemart-andre/04.jpg">Mus&eacute;e Jacquemart-Andr&eacute;</li>
+        <li data-project="musee-arts-metiers-exhibition" data-images="images/musee-arts-metiers-exhibition/01.jpg,images/musee-arts-metiers-exhibition/02.jpg">Mus&eacute;e des Arts et M&eacute;tiers</li>
         <li data-project="la-hune-exhibition" data-images="images/la-hune-exhibition/01.jpg,images/la-hune-exhibition/02.jpg,images/la-hune-exhibition/03.jpg,images/la-hune-exhibition/04.jpg">La Hune</li>
         <li data-project="ledger-106-exhibition" data-images="images/ledger-106-exhibition/01.jpg,images/ledger-106-exhibition/02.jpg,images/ledger-106-exhibition/03.jpg,images/ledger-106-exhibition/04.jpg,images/ledger-106-exhibition/05.jpg">Ledger 106</li>
         <li data-project="collection-nft-photographie-book" data-images="images/collection-nft-photographie-book/01.jpg,images/collection-nft-photographie-book/02.jpg,images/collection-nft-photographie-book/03.jpg,images/collection-nft-photographie-book/04.jpg,images/collection-nft-photographie-book/05.jpg">A Collection of NFT Photographie</li>
-        <li data-project="abs-exhibition-lisbonne" data-images="images/abs-exhibition-lisbonne/01.jpg,images/abs-exhibition-lisbonne/02.jpg,images/abs-exhibition-lisbonne/03.jpg,images/abs-exhibition-lisbonne/04.jpg,images/abs-exhibition-lisbonne/05.jpg">ABS — Lisbonne</li>
+        <li data-project="abs-exhibition-lisbonne" data-images="images/abs-exhibition-lisbonne/01.jpg,images/abs-exhibition-lisbonne/02.jpg,images/abs-exhibition-lisbonne/03.jpg,images/abs-exhibition-lisbonne/04.jpg,images/abs-exhibition-lisbonne/05.jpg">ABS &mdash; Lisbonne</li>
       </ul>
 
-      <!-- NFT Factory group -->
       <div class="project-group-title" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">NFT Factory</div>
       <ul class="project-sublist">
         <li data-project="ouverture-nft-factory" data-images="images/ouverture-nft-factory/01.jpg,images/ouverture-nft-factory/02.jpg,images/ouverture-nft-factory/03.jpg,images/ouverture-nft-factory/04.jpg,images/ouverture-nft-factory/05.jpg">Opening</li>
@@ -989,14 +801,12 @@ a {
         <li data-project="nft-factory-pop-up-creation" data-images="images/nft-factory-pop-up-creation/01.jpg,images/nft-factory-pop-up-creation/02.jpg,images/nft-factory-pop-up-creation/03.jpg,images/nft-factory-pop-up-creation/04.jpg,images/nft-factory-pop-up-creation/05.jpg">Pop-Up Creation</li>
       </ul>
 
-      <!-- Artverse group -->
       <div class="project-group-title" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">Artverse</div>
       <ul class="project-sublist">
         <li data-project="artverse-exhibition" data-images="images/artverse-exhibition/01.jpg,images/artverse-exhibition/02.jpg,images/artverse-exhibition/03.jpg">Exhibition</li>
         <li data-project="artverse-event" data-images="images/artverse-event/01.jpg,images/artverse-event/02.jpg,images/artverse-event/03.jpg">Event</li>
       </ul>
 
-      <!-- PERSONAL PROJECTS -->
       <div class="section-label" style="margin-top: 32px;">Personal Projects</div>
       <ul class="project-list" id="project-list-personal">
         <li data-project="excalibur-games" data-video="images/excalibur-games/video.mp4">Excalibur / Games</li>
@@ -1006,38 +816,25 @@ a {
       </ul>
     </div>
 
-    <!-- RIGHT COLUMN — Navigation -->
     <div class="work-right">
       <ul class="nav-list" id="nav-list">
         <li data-nav="about">About</li>
         <li data-nav="contact">Contact</li>
-        <li data-nav="cv">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5; line-height: 1; display: inline-block; margin-top: -4px;" onclick="event.stopPropagation()">Download — PDF</a></li>
+        <li data-nav="cv">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" style="font-size: 10px; letter-spacing: 0.15em; opacity: 0.5; line-height: 1; display: inline-block; margin-top: -4px;" onclick="event.stopPropagation()">Download &mdash; PDF</a></li>
         <li data-nav="media">Media</li>
         <li data-nav="clients">Clients</li>
       </ul>
     </div>
   </div>
 
-  <!-- ============================================================
-       PROJECT IMAGE OVERLAY
-       This element is reused for all projects.
-       ============================================================ -->
   <div class="gallery-backdrop" id="gallery-backdrop"></div>
   <div class="project-image-overlay" id="project-image-overlay"></div>
-  <span class="gallery-arrow gallery-arrow-left" id="gallery-arrow-left">←</span>
-  <span class="gallery-arrow gallery-arrow-right" id="gallery-arrow-right">→</span>
-  <span class="gallery-close" id="gallery-close">✕</span>
+  <span class="gallery-arrow gallery-arrow-left" id="gallery-arrow-left">&larr;</span>
+  <span class="gallery-arrow gallery-arrow-right" id="gallery-arrow-right">&rarr;</span>
+  <span class="gallery-close" id="gallery-close">&times;</span>
   <span class="gallery-fullscreen" id="gallery-fullscreen">Fullscreen</span>
   <span class="gallery-counter" id="gallery-counter"></span>
 
-  <!-- Image templates removed — images now defined via data-images attributes on <li> elements -->
-
-  <!-- ============================================================
-       NAVIGATION PREVIEW PANELS
-       Edit text content directly below.
-       ============================================================ -->
-
-  <!-- ABOUT preview -->
   <div class="nav-preview" id="preview-about">
     <span class="nav-preview-close">&times;</span>
     <p>Titou Granier is a 25 year old cultural event producer, curator and art project manager based in Paris, specializing in contemporary art, luxury activations and international productions.</p>
@@ -1047,53 +844,44 @@ a {
     <p style="margin-top: 16px;">Beyond events and exhibitions, he has directed the artistic production of a photography book, created a full set of playing cards in collaboration with a collector, designed a video game and organized concerts and exhibitions. More projects to come.</p>
   </div>
 
-  <!-- CONTACT preview -->
   <div class="nav-preview preview-contact" id="preview-contact">
     <span class="nav-preview-close">&times;</span>
     <a href="tel:+33620370036">+33 6 20 37 00 36</a>
     <a href="mailto:graniertitou@gmail.com">graniertitou@gmail.com</a>
   </div>
 
-  <!-- CURRICULUM VITAE preview -->
   <div class="nav-preview preview-cv" id="preview-cv">
     <span class="nav-preview-close">&times;</span>
     <img src="images/cv-preview.png" alt="CV Titou Granier" style="max-width: 100%; max-height: 70vh; display: block; margin: 0 auto;">
   </div>
 
-  <!-- CLIENTS preview -->
   <div class="nav-preview" id="preview-clients">
     <span class="nav-preview-close">&times;</span>
     <p>Client list coming soon.</p>
   </div>
 
-  <!-- MEDIA preview (short list, same links as full Media page) -->
   <div class="nav-preview preview-media" id="preview-media">
     <span class="nav-preview-close">&times;</span>
-    <a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">— Le Monde — NFT Factory</a>
-    <a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">— Les Numériques — NFT Factory Opening</a>
-    <a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">— 1703 Art — French Galleries &amp; NFT</a>
-    <a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">— TikTok — NFT Factory Paris</a>
-    <a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">— Capital — NFT Factory Reinvents Itself</a>
-    <a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">— Le Parisien — Digital Art in Paris</a>
+    <a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">&mdash; Le Monde &mdash; NFT Factory</a>
+    <a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">&mdash; Les Num&eacute;riques &mdash; NFT Factory Opening</a>
+    <a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">&mdash; 1703 Art &mdash; French Galleries &amp; NFT</a>
+    <a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">&mdash; TikTok &mdash; NFT Factory Paris</a>
+    <a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">&mdash; Capital &mdash; NFT Factory Reinvents Itself</a>
+    <a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">&mdash; Le Parisien &mdash; Digital Art in Paris</a>
   </div>
 </div>
 
-<!-- ============================================================
-     PAGE 3 — MEDIA (Full page)
-     ============================================================ -->
+<!-- PAGE 3 — MEDIA -->
 <div id="page-media" class="page">
-  <!-- Back to Work -->
-  <a href="#" class="media-back" onclick="event.preventDefault(); goToPage('page-work')">← Work</a>
-
+  <a href="#" class="media-back" onclick="event.preventDefault(); goToPage('page-work');">&larr; Work</a>
   <div class="media-title">Media</div>
-
   <ul class="media-links">
-    <li><a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">— Le Monde — NFT Factory</a></li>
-    <li><a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">— Les Numériques — NFT Factory Opening</a></li>
-    <li><a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">— 1703 Art — French Galleries &amp; NFT</a></li>
-    <li><a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">— TikTok — NFT Factory Paris</a></li>
-    <li><a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">— Capital — NFT Factory Reinvents Itself</a></li>
-    <li><a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">— Le Parisien — Digital Art in Paris</a></li>
+    <li><a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank">&mdash; Le Monde &mdash; NFT Factory</a></li>
+    <li><a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank">&mdash; Les Num&eacute;riques &mdash; NFT Factory Opening</a></li>
+    <li><a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank">&mdash; 1703 Art &mdash; French Galleries &amp; NFT</a></li>
+    <li><a href="https://www.tiktok.com/@nftfactoryparis" target="_blank">&mdash; TikTok &mdash; NFT Factory Paris</a></li>
+    <li><a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank">&mdash; Capital &mdash; NFT Factory Reinvents Itself</a></li>
+    <li><a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank">&mdash; Le Parisien &mdash; Digital Art in Paris</a></li>
   </ul>
 </div>
 
@@ -1104,11 +892,8 @@ a {
 (function() {
   'use strict';
 
-  /* ==========================================================
-     STATE
-     ========================================================== */
+  /* STATE */
   var lockedNav = null;
-  var navHovered = false;
   var isMobile = window.matchMedia('(max-width: 768px)');
   var mobileOpenNav = null;
 
@@ -1120,7 +905,7 @@ a {
   var galleryIsVideo = false;
   var galleryFullscreen = false;
 
-  /* Gallery DOM elements */
+  /* Gallery DOM */
   var overlay = document.getElementById('project-image-overlay');
   var backdrop = document.getElementById('gallery-backdrop');
   var arrowLeft = document.getElementById('gallery-arrow-left');
@@ -1129,30 +914,23 @@ a {
   var galleryFsBtn = document.getElementById('gallery-fullscreen');
   var galleryCounter = document.getElementById('gallery-counter');
 
-  /* ==========================================================
-     PAGE SWITCHING
-     ========================================================== */
+  /* PAGE SWITCHING */
   window.goToPage = function(targetId) {
     closeLockedPreview();
     closeGallery();
-    /* Stop quiz and speech when leaving a page */
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     var bubble = document.getElementById('quiz-bubble');
     if (bubble) bubble.classList.remove('visible');
     var qBtn = document.getElementById('quiz-start-btn');
     if (qBtn) qBtn.style.display = '';
     var pages = document.querySelectorAll('.page');
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].classList.remove('active');
-    }
+    for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
     setTimeout(function() {
       document.getElementById(targetId).classList.add('active');
     }, 50);
   };
 
-  /* ==========================================================
-     GALLERY — open/close/navigate
-     ========================================================== */
+  /* GALLERY */
   function openGallery(images, alt, isVideo, videoSrc) {
     galleryOpen = true;
     galleryImages = images;
@@ -1161,7 +939,6 @@ a {
     galleryIndex = 0;
     galleryFullscreen = false;
     overlay.classList.remove('fullscreen');
-
     backdrop.style.display = 'block';
     galleryCloseBtn.style.display = 'block';
 
@@ -1233,13 +1010,8 @@ a {
 
   function toggleFullscreen() {
     galleryFullscreen = !galleryFullscreen;
-    if (galleryFullscreen) {
-      overlay.classList.add('fullscreen');
-      galleryFsBtn.textContent = 'Exit';
-    } else {
-      overlay.classList.remove('fullscreen');
-      galleryFsBtn.textContent = 'Fullscreen';
-    }
+    overlay.classList.toggle('fullscreen', galleryFullscreen);
+    galleryFsBtn.textContent = galleryFullscreen ? 'Exit' : 'Fullscreen';
     if (galleryIsVideo) {
       var video = overlay.querySelector('video');
       if (video) {
@@ -1255,8 +1027,7 @@ a {
     if (!galleryOpen) return;
     galleryOpen = false;
     galleryFullscreen = false;
-    overlay.classList.remove('fullscreen');
-    overlay.classList.remove('visible');
+    overlay.classList.remove('fullscreen', 'visible');
     overlay.style.opacity = '';
     backdrop.style.display = 'none';
     arrowLeft.style.display = 'none';
@@ -1266,22 +1037,17 @@ a {
     galleryFsBtn.textContent = 'Fullscreen';
     galleryCounter.style.display = 'none';
     setTimeout(function() {
-      if (!overlay.classList.contains('visible')) {
-        overlay.innerHTML = '';
-      }
+      if (!overlay.classList.contains('visible')) overlay.innerHTML = '';
     }, 200);
   }
 
-  /* Gallery controls */
   arrowLeft.addEventListener('click', function(e) { e.stopPropagation(); galleryPrev(); });
   arrowRight.addEventListener('click', function(e) { e.stopPropagation(); galleryNext(); });
   galleryCloseBtn.addEventListener('click', function(e) { e.stopPropagation(); closeGallery(); });
   galleryFsBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleFullscreen(); });
-  backdrop.addEventListener('click', function() { closeGallery(); });
+  backdrop.addEventListener('click', closeGallery);
 
-  /* ==========================================================
-     PROJECT HOVER (desktop preview) + CLICK (open gallery)
-     ========================================================== */
+  /* PROJECT HOVER + CLICK */
   var projectItems = document.querySelectorAll('#project-list li, .project-sublist li, #project-list-personal li');
   var hoverTimer = null;
   var hoverIndex = 0;
@@ -1293,11 +1059,8 @@ a {
       var videoSrc = item.getAttribute('data-video');
       var alt = item.textContent;
 
-      /* HOVER — desktop only, preview cycling (not locked) */
       item.addEventListener('mouseenter', function() {
-        if (isMobile.matches || galleryOpen) return;
-        if (navHovered || lockedNav) return;
-
+        if (isMobile.matches || galleryOpen || lockedNav) return;
         if (videoSrc) {
           overlay.innerHTML = '';
           var video = document.createElement('video');
@@ -1313,7 +1076,7 @@ a {
           overlay.classList.add('visible');
           return;
         }
-        if (images.length === 0) return;
+        if (!images.length) return;
         hoverIndex = 0;
         showHoverImage(images, alt);
         overlay.classList.add('visible');
@@ -1334,15 +1097,10 @@ a {
         stopHover();
       });
 
-      /* CLICK — open gallery (both desktop and mobile) */
       item.addEventListener('click', function() {
-        if (images.length === 0 && !videoSrc) return;
+        if (!images.length && !videoSrc) return;
         stopHover();
-        if (videoSrc) {
-          openGallery([], alt, true, videoSrc);
-        } else {
-          openGallery(images, alt, false, null);
-        }
+        openGallery(videoSrc ? [] : images, alt, !!videoSrc, videoSrc);
       });
     })(projectItems[i]);
   }
@@ -1359,25 +1117,16 @@ a {
   }
 
   function stopHover() {
-    if (hoverTimer) {
-      clearInterval(hoverTimer);
-      hoverTimer = null;
-    }
+    if (hoverTimer) { clearInterval(hoverTimer); hoverTimer = null; }
     overlay.style.opacity = '';
     overlay.classList.remove('visible');
     setTimeout(function() {
-      if (!overlay.classList.contains('visible')) {
-        overlay.innerHTML = '';
-      }
+      if (!overlay.classList.contains('visible')) overlay.innerHTML = '';
     }, 200);
   }
 
-  /* ==========================================================
-     TOUCH SWIPE (mobile gallery)
-     ========================================================== */
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var touchSwiping = false;
+  /* TOUCH SWIPE */
+  var touchStartX = 0, touchStartY = 0, touchSwiping = false;
 
   overlay.addEventListener('touchstart', function(e) {
     if (!galleryOpen || galleryIsVideo) return;
@@ -1392,14 +1141,11 @@ a {
     var dx = e.changedTouches[0].clientX - touchStartX;
     var dy = e.changedTouches[0].clientY - touchStartY;
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      if (dx < 0) galleryNext();
-      else galleryPrev();
+      dx < 0 ? galleryNext() : galleryPrev();
     }
   }, { passive: true });
 
-  /* ==========================================================
-     NAVIGATION PREVIEW (hover + lock)
-     ========================================================== */
+  /* NAVIGATION PREVIEW */
   var navItems = document.querySelectorAll('#nav-list li');
 
   for (var j = 0; j < navItems.length; j++) {
@@ -1409,25 +1155,18 @@ a {
       var navLink = navItem.getAttribute('data-nav-link');
 
       navItem.addEventListener('mouseenter', function() {
-        if (isMobile.matches) return;
-        if (lockedNav || galleryOpen) return;
-        navHovered = true;
+        if (isMobile.matches || lockedNav || galleryOpen) return;
         overlay.classList.remove('visible');
         if (previewEl) previewEl.classList.add('visible');
       });
 
       navItem.addEventListener('mouseleave', function() {
-        if (isMobile.matches) return;
-        if (lockedNav) return;
-        navHovered = false;
+        if (isMobile.matches || lockedNav) return;
         if (previewEl) previewEl.classList.remove('visible');
       });
 
       navItem.addEventListener('click', function() {
-        if (navLink) {
-          goToPage(navLink);
-          return;
-        }
+        if (navLink) { goToPage(navLink); return; }
 
         if (isMobile.matches) {
           if (mobileOpenNav === navId) {
@@ -1435,8 +1174,8 @@ a {
             mobileOpenNav = null;
           } else {
             if (mobileOpenNav) {
-              var prevPreview = document.getElementById('preview-' + mobileOpenNav);
-              if (prevPreview) prevPreview.classList.remove('mobile-visible');
+              var prev = document.getElementById('preview-' + mobileOpenNav);
+              if (prev) prev.classList.remove('mobile-visible');
             }
             if (previewEl) {
               previewEl.classList.add('mobile-visible');
@@ -1452,7 +1191,6 @@ a {
         } else {
           closeLockedPreview();
           lockedNav = navId;
-          navHovered = true;
           overlay.classList.remove('visible');
           if (previewEl) {
             previewEl.classList.add('visible');
@@ -1464,15 +1202,10 @@ a {
   }
 
   function closeLockedPreview() {
-    if (lockedNav) {
-      var el = document.getElementById('preview-' + lockedNav);
-      if (el) {
-        el.classList.remove('visible');
-        el.classList.remove('locked');
-      }
-      lockedNav = null;
-      navHovered = false;
-    }
+    if (!lockedNav) return;
+    var el = document.getElementById('preview-' + lockedNav);
+    if (el) { el.classList.remove('visible'); el.classList.remove('locked'); }
+    lockedNav = null;
   }
 
   var closeBtns = document.querySelectorAll('.nav-preview-close');
@@ -1483,21 +1216,16 @@ a {
     });
   }
 
-  /* ==========================================================
-     LANDING NAME — portrait hover
-     ========================================================== */
+  /* LANDING — portrait hover */
   var nameEl = document.getElementById('landing-name');
   var portraitEl = document.getElementById('landing-portrait');
   if (nameEl && portraitEl) {
-    function positionPortrait() {
+    nameEl.addEventListener('mouseenter', function() {
       var rect = nameEl.getBoundingClientRect();
       var imgW = Math.min(portraitEl.naturalWidth, 200) || 200;
       var imgH = Math.min(portraitEl.naturalHeight, 200) || 200;
       portraitEl.style.left = (rect.left + rect.width / 2 - imgW / 2) + 'px';
       portraitEl.style.top = (rect.top - imgH - 16) + 'px';
-    }
-    nameEl.addEventListener('mouseenter', function() {
-      positionPortrait();
       portraitEl.classList.add('visible');
     });
     nameEl.addEventListener('mouseleave', function() {
@@ -1505,9 +1233,7 @@ a {
     });
   }
 
-  /* ==========================================================
-     KEYBOARD — arrows, escape, F for fullscreen
-     ========================================================== */
+  /* KEYBOARD */
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       if (galleryOpen) closeGallery();
@@ -1520,36 +1246,27 @@ a {
     }
   });
 
-  /* ==========================================================
-     LAZY PRELOAD — start loading all project images immediately
-     ========================================================== */
-  (function preloadImages() {
+  /* LAZY PRELOAD */
+  (function() {
     var items = document.querySelectorAll('[data-images]');
     var allSrcs = [];
     for (var i = 0; i < items.length; i++) {
       var srcs = items[i].getAttribute('data-images').split(',');
-      for (var j = 0; j < srcs.length; j++) {
-        allSrcs.push(srcs[j]);
-      }
+      for (var j = 0; j < srcs.length; j++) allSrcs.push(srcs[j]);
     }
-    /* Load 3 at a time to avoid saturating bandwidth */
     var idx = 0;
     function loadNext() {
       if (idx >= allSrcs.length) return;
       var img = new Image();
-      img.onload = img.onerror = function() {
-        idx++;
-        loadNext();
-      };
+      img.onload = img.onerror = function() { idx++; loadNext(); };
       img.src = allSrcs[idx];
     }
-    /* Start 3 parallel streams */
     loadNext(); loadNext(); loadNext();
   })();
 
-  /* ==========================================================
-     LANDING PAGE — RECRUITER COMPATIBILITY QUIZ
-     ========================================================== */
+  /* ============================================================
+     QUIZ
+     ============================================================ */
   var quizQuestions = [
     {
       q: "What scale of events do you typically handle?",
@@ -1643,48 +1360,45 @@ a {
     }
   ];
 
-  var quizState = { current: 0, totalScore: 0, maxScore: 0, active: false, answered: false };
-  var charWrap = document.getElementById('character-wrap');
+  var quizState = { current: 0, totalScore: 0, maxScore: 0, active: false, answered: false, canSkip: false };
   var charSprite = document.getElementById('character-sprite');
   var gifSrc = 'images/character-talking.gif';
   var pngSrc = 'images/character.png';
+  var mouthTimer = null;
 
   function startMouthAnim() {
     if (charSprite) charSprite.src = gifSrc + '?t=' + Date.now();
   }
   function stopMouthAnim() {
+    if (mouthTimer) { clearTimeout(mouthTimer); mouthTimer = null; }
     if (charSprite) charSprite.src = pngSrc;
   }
 
-  /* Pick best available voices once loaded */
+  /* Voice setup */
   var questionVoice = null;
   var reactionVoice = null;
 
   function pickVoices() {
     var voices = window.speechSynthesis.getVoices();
     if (!voices.length) return;
-    /* For questions: female narrator voice */
     var qPref = ['Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'];
-    for (var p = 0; p < qPref.length; p++) {
-      for (var i = 0; i < voices.length; i++) {
+    var rPref = ['Daniel', 'Alex', 'Tom', 'James', 'Aaron', 'Gordon'];
+    var i, p;
+    for (p = 0; p < qPref.length && !questionVoice; p++) {
+      for (i = 0; i < voices.length; i++) {
         if (voices[i].name.indexOf(qPref[p]) >= 0 && voices[i].lang.indexOf('en') === 0) { questionVoice = voices[i]; break; }
       }
-      if (questionVoice) break;
     }
-    /* For reactions: male character voice */
-    var rPref = ['Daniel', 'Alex', 'Tom', 'James', 'Aaron', 'Gordon'];
-    for (var p = 0; p < rPref.length; p++) {
-      for (var i = 0; i < voices.length; i++) {
+    for (p = 0; p < rPref.length && !reactionVoice; p++) {
+      for (i = 0; i < voices.length; i++) {
         if (voices[i].name.indexOf(rPref[p]) >= 0 && voices[i].lang.indexOf('en') === 0) { reactionVoice = voices[i]; break; }
       }
-      if (reactionVoice) break;
     }
-    /* Fallback: just pick two different English voices */
     if (!questionVoice || !reactionVoice) {
-      var enVoices = voices.filter(function(v) { return v.lang.indexOf('en') === 0; });
-      if (!questionVoice && enVoices.length > 0) questionVoice = enVoices[0];
-      if (!reactionVoice && enVoices.length > 1) reactionVoice = enVoices[1];
-      else if (!reactionVoice && enVoices.length > 0) reactionVoice = enVoices[0];
+      var en = voices.filter(function(v) { return v.lang.indexOf('en') === 0; });
+      if (!questionVoice && en.length > 0) questionVoice = en[0];
+      if (!reactionVoice && en.length > 1) reactionVoice = en[1];
+      else if (!reactionVoice && en.length > 0) reactionVoice = en[0];
     }
   }
   if ('speechSynthesis' in window) {
@@ -1692,11 +1406,13 @@ a {
     window.speechSynthesis.onvoiceschanged = pickVoices;
   }
 
-  /* Welcome message on first user interaction */
+  /* Welcome on first interaction */
   var welcomePlayed = false;
   function playWelcome() {
     if (welcomePlayed) return;
     welcomePlayed = true;
+    document.removeEventListener('click', playWelcome);
+    document.removeEventListener('keydown', playWelcome);
     if (!('speechSynthesis' in window)) return;
     var utter = new SpeechSynthesisUtterance("Welcome on Teetoo's portfolio");
     utter.lang = 'en-GB';
@@ -1706,13 +1422,13 @@ a {
     if (reactionVoice) utter.voice = reactionVoice;
     startMouthAnim();
     utter.onend = function() { stopMouthAnim(); };
-    setTimeout(function() { stopMouthAnim(); }, 5000);
+    mouthTimer = setTimeout(stopMouthAnim, 5000);
     window.speechSynthesis.speak(utter);
   }
-  document.addEventListener('click', playWelcome, { once: false });
-  document.addEventListener('keydown', playWelcome, { once: false });
+  document.addEventListener('click', playWelcome);
+  document.addEventListener('keydown', playWelcome);
 
-  /* Narrator reads questions — calm, clear */
+  /* Narrator reads questions */
   function speakQuestion(text, cb) {
     if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
     window.speechSynthesis.cancel();
@@ -1726,7 +1442,7 @@ a {
     window.speechSynthesis.speak(utter);
   }
 
-  /* Character speaks reactions — natural, confident */
+  /* Character speaks reactions */
   function speak(text, cb) {
     if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
     window.speechSynthesis.cancel();
@@ -1738,7 +1454,7 @@ a {
     if (reactionVoice) utter.voice = reactionVoice;
     startMouthAnim();
     utter.onend = function() { stopMouthAnim(); if (cb) cb(); };
-    setTimeout(function() { stopMouthAnim(); }, 15000);
+    mouthTimer = setTimeout(stopMouthAnim, 15000);
     window.speechSynthesis.speak(utter);
   }
 
@@ -1749,6 +1465,7 @@ a {
     quizState.totalScore = 0;
     quizState.maxScore = 0;
     quizState.active = true;
+    quizState.canSkip = false;
     showQuestion();
   };
 
@@ -1759,6 +1476,7 @@ a {
     var fEl = document.getElementById('quiz-feedback');
     var sEl = document.getElementById('quiz-score');
 
+    /* Final results */
     if (quizState.current >= quizQuestions.length) {
       var pct = Math.round((quizState.totalScore / quizState.maxScore) * 100);
       var msg = '';
@@ -1769,9 +1487,7 @@ a {
       else msg = "Maybe not this time. But keep me in mind.";
 
       qEl.innerHTML = '';
-      fEl.className = '';
-      fEl.id = 'quiz-feedback';
-      fEl.textContent = '';
+      fEl.className = ''; fEl.id = 'quiz-feedback'; fEl.textContent = '';
       sEl.textContent = '';
       bEl.innerHTML = '<div id="quiz-final-score">' + pct + '%</div>' +
         '<div id="quiz-final-msg">' + msg.replace('\n', '<br>') + '</div>' +
@@ -1779,7 +1495,6 @@ a {
         '<button onclick="event.stopPropagation(); restartQuiz();" style="margin-top:6px;">Start over</button>';
 
       if (pct >= 60 && charSprite) {
-        /* Show handshake image and lock it — override mouth anim */
         charSprite.src = 'images/character-handshake.png';
         pngSrc = 'images/character-handshake.png';
         gifSrc = 'images/character-handshake.png';
@@ -1788,12 +1503,12 @@ a {
       return;
     }
 
+    /* Show question */
     var question = quizQuestions[quizState.current];
     quizState.answered = false;
+    quizState.canSkip = false;
     bubble.classList.add('visible');
-    fEl.className = '';
-    fEl.id = 'quiz-feedback';
-    fEl.textContent = '';
+    fEl.className = ''; fEl.id = 'quiz-feedback'; fEl.textContent = '';
     sEl.textContent = (quizState.current + 1) + ' / ' + quizQuestions.length;
     qEl.textContent = question.q;
 
@@ -1817,10 +1532,9 @@ a {
     quizState.maxScore += maxForQ;
 
     var btns = document.querySelectorAll('#quiz-buttons button');
-    btns.forEach(function(b, i) {
-      if (i === idx) b.classList.add('selected');
-      else b.classList.add('disabled');
-    });
+    for (var b = 0; b < btns.length; b++) {
+      btns[b].classList.add(b === idx ? 'selected' : 'disabled');
+    }
 
     var fEl = document.getElementById('quiz-feedback');
     fEl.textContent = chosen.reaction;
@@ -1828,14 +1542,14 @@ a {
 
     quizState.canSkip = true;
     speak(chosen.reaction, function() {
-      if (!quizState.canSkip) return; /* already skipped */
+      if (!quizState.canSkip) return;
       quizState.canSkip = false;
       quizState.current++;
       setTimeout(showQuestion, 800);
     });
   };
 
-  /* Skip: click bubble to stop speech and advance */
+  /* Skip: click bubble to advance */
   document.getElementById('quiz-bubble').addEventListener('click', function(e) {
     if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
     if (!quizState.canSkip) return;
