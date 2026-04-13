@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Titou Granier — Cultural Project Manager</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80' font-family='monospace' font-weight='bold'>TG</text></svg>">
 
 <style>
 /* ============================================================
@@ -126,9 +127,9 @@ a {
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 18px;
+  font-size: 24px;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   font-weight: 700;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -157,9 +158,10 @@ a {
    ============================================================ */
 .quiz-bubble {
   position: absolute;
-  right: calc(5% + 280px);
-  top: 6vh;
-  width: 320px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10vh;
+  width: 340px;
   max-height: 80vh;
   overflow-y: auto;
   background: transparent;
@@ -248,6 +250,17 @@ a {
   color: #444;
 }
 .quiz__feedback--visible { opacity: 1; }
+.quiz__skip-hint {
+  font-size: 8px;
+  opacity: 0;
+  margin-top: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  transition: opacity 400ms ease;
+  cursor: pointer;
+}
+.quiz__skip-hint--visible { opacity: 1; }
 .quiz__counter {
   font-size: 9px;
   opacity: 0.35;
@@ -290,13 +303,14 @@ a {
 }
 .quiz__start-btn {
   position: absolute;
-  right: calc(5% + 280px);
-  top: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 28vh;
   font-family: 'Code Saver', monospace;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   background: transparent;
   color: #000;
   border: none;
@@ -430,13 +444,17 @@ a {
   cursor: pointer;
 }
 .nav-list__item:hover { opacity: 0.6; }
+.nav-list__item--cv {
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
 .nav-list__cv-download {
   font-size: 10px;
   letter-spacing: 0.15em;
   opacity: 0.5;
   line-height: 1;
   display: inline-block;
-  margin-top: -4px;
+  margin-top: 2px;
 }
 
 /* ============================================================
@@ -698,12 +716,12 @@ a {
   .quiz__start-btn {
     position: fixed;
     right: auto;
-    left: 5%;
-    transform: none;
+    left: 50%;
+    transform: translateX(-50%);
     top: 5vh;
     bottom: auto;
     white-space: nowrap;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     z-index: 20;
   }
@@ -794,6 +812,7 @@ a {
     <div class="quiz__question" id="js-quiz-question"></div>
     <div class="quiz__buttons" id="js-quiz-buttons" role="group" aria-label="Answer options"></div>
     <div class="quiz__feedback" id="js-quiz-feedback" aria-live="polite"></div>
+    <div class="quiz__skip-hint" id="js-quiz-skip">tap to skip</div>
     <div class="quiz__counter" id="js-quiz-counter" aria-live="polite"></div>
   </div>
 </main>
@@ -844,7 +863,7 @@ a {
       <ul class="nav-list" id="js-nav-list" role="list">
         <li class="nav-list__item" data-nav="about" role="listitem">About</li>
         <li class="nav-list__item" data-nav="contact" role="listitem">Contact</li>
-        <li class="nav-list__item" data-nav="cv" role="listitem">Curriculum Vitae<br><a href="./cv.pdf" target="_blank" class="nav-list__cv-download" rel="noopener">Download &mdash; PDF</a></li>
+        <li class="nav-list__item nav-list__item--cv" data-nav="cv" role="listitem">Curriculum Vitae<br><a href="./cv.pdf" download="CV Titou Granier.pdf" target="_blank" class="nav-list__cv-download" rel="noopener">Download &mdash; PDF</a></li>
         <li class="nav-list__item" data-nav="media" role="listitem">Media</li>
         <li class="nav-list__item" data-nav="clients" role="listitem">Clients</li>
       </ul>
@@ -967,6 +986,7 @@ a {
   const quizButtons   = $('js-quiz-buttons');
   const quizFeedback  = $('js-quiz-feedback');
   const quizCounterEl = $('js-quiz-counter');
+  const quizSkipHint = $('js-quiz-skip');
   const quizStartBtn  = $('js-quiz-start');
   const nameEl        = $('js-landing-name');
   const portraitEl    = $('js-portrait');
@@ -1580,9 +1600,11 @@ a {
     quizFeedback.classList.add('quiz__feedback--visible');
 
     quiz.canSkip = true;
+    quizSkipHint.classList.add('quiz__skip-hint--visible');
     speak(chosen.reaction, () => {
       if (!quiz.canSkip) return;
       quiz.canSkip = false;
+      quizSkipHint.classList.remove('quiz__skip-hint--visible');
       quiz.current++;
       setTimeout(showQuestion, NEXT_Q_DELAY);
     });
@@ -1617,10 +1639,10 @@ a {
 
     const profileLink = document.createElement('a');
     profileLink.className = 'quiz__profile-link';
-    profileLink.href = 'https://portfolio-index-production.up.railway.app/';
+    profileLink.href = 'https://www.linkedin.com/in/titou-granier/';
     profileLink.target = '_blank';
     profileLink.rel = 'noopener';
-    profileLink.textContent = 'View full profile';
+    profileLink.textContent = 'View LinkedIn profile';
     profileLink.addEventListener('click', (e) => e.stopPropagation());
     quizButtons.appendChild(profileLink);
 
@@ -1643,6 +1665,7 @@ a {
     if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
     if (!quiz.canSkip) return;
     quiz.canSkip = false;
+    quizSkipHint.classList.remove('quiz__skip-hint--visible');
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     stopMouthAnim();
     quiz.current++;
