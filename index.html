@@ -685,7 +685,13 @@ a {
   .landing__contact { margin-top: 24px; }
   .landing__contact a { font-size: 12px; }
   .landing__hint { bottom: calc(30vh + 10px) !important; }
-  .landing__portrait { display: none !important; }
+  .landing__portrait {
+    height: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: auto;
+    top: 5vh;
+  }
 
   .character {
     height: 55vh;
@@ -1301,10 +1307,15 @@ a {
      ========================================================== */
   if (nameEl && portraitEl) {
     nameEl.addEventListener('mouseenter', () => {
-      portraitEl.classList.add('landing__portrait--visible');
+      if (!isMobile.matches) portraitEl.classList.add('landing__portrait--visible');
     });
     nameEl.addEventListener('mouseleave', () => {
-      portraitEl.classList.remove('landing__portrait--visible');
+      if (!isMobile.matches) portraitEl.classList.remove('landing__portrait--visible');
+    });
+    nameEl.addEventListener('click', (e) => {
+      if (!isMobile.matches) return;
+      e.stopPropagation();
+      portraitEl.classList.toggle('landing__portrait--visible');
     });
   }
 
