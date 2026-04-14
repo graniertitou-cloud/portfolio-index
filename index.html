@@ -1330,6 +1330,10 @@ a {
      KEYBOARD
      ========================================================== */
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && $('page-landing').classList.contains('active') && !quiz.active) {
+      goToPage('page-work');
+      return;
+    }
     if (e.key === 'Escape') {
       if (galleryOpen) closeGallery();
       else closeLockedPreview();
