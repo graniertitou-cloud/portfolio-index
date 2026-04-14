@@ -127,6 +127,14 @@ a {
   width: auto;
   z-index: 2;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-fast) ease, visibility 0s var(--transition-fast);
+}
+.landing__portrait--visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--transition-fast) ease, visibility 0s 0s;
 }
 .landing__title {
   font-weight: 400;
@@ -677,10 +685,7 @@ a {
   .landing__contact { margin-top: 24px; }
   .landing__contact a { font-size: 12px; }
   .landing__hint { bottom: calc(30vh + 10px) !important; }
-  .landing__portrait {
-    height: 55vh;
-    left: -5%;
-  }
+  .landing__portrait { display: none !important; }
 
   .character {
     height: 55vh;
@@ -793,7 +798,7 @@ a {
     </nav>
   </section>
   <div class="landing__hint" aria-hidden="true">ENTER</div>
-  <img src="images/titou-portrait.png" alt="Titou Granier portrait" class="landing__portrait" id="js-portrait">
+  <img src="images/titou-portrait.png" alt="Titou Granier portrait" class="landing__portrait" id="js-portrait" aria-hidden="true">
   <div class="character" id="js-character-wrap" aria-hidden="true">
     <img src="images/character.png" alt="" class="character__sprite" id="js-character-sprite">
   </div>
@@ -1292,8 +1297,16 @@ a {
   })();
 
   /* ==========================================================
-     LANDING — portrait (always visible, no hover logic needed)
+     LANDING — portrait hover (appears on left)
      ========================================================== */
+  if (nameEl && portraitEl) {
+    nameEl.addEventListener('mouseenter', () => {
+      portraitEl.classList.add('landing__portrait--visible');
+    });
+    nameEl.addEventListener('mouseleave', () => {
+      portraitEl.classList.remove('landing__portrait--visible');
+    });
+  }
 
   /* ==========================================================
      KEYBOARD
