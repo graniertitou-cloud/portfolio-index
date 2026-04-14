@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Titou Granier — Event & Cultural Project Manager based in Paris. Exhibitions, luxury activations, international productions.">
+<meta property="og:title" content="Titou Granier — Portfolio">
+<meta property="og:description" content="Event & Cultural Project Manager. Exhibitions, luxury activations, international productions.">
+<meta property="og:type" content="website">
 <title>Titou Granier — Cultural Project Manager</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80' font-family='monospace' font-weight='bold'>TG</text></svg>">
 
@@ -26,6 +30,33 @@
 }
 
 /* ============================================================
+   CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  --color-text: #000;
+  --color-bg: #fff;
+  --color-muted: #444;
+  --color-faint: #999;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-light: rgba(0, 0, 0, 0.3);
+  --color-backdrop: rgba(255, 255, 255, 0.95);
+  --font-main: 'Code Saver', monospace;
+  --transition-fast: 200ms;
+  --transition-page: 400ms;
+  /* Z-INDEX SCALE
+     1   — active page
+     2   — character, portrait
+     3   — quiz start btn
+     10  — back links, quiz bubble
+     20  — mobile quiz
+     49  — gallery backdrop
+     50  — gallery overlay
+     52  — gallery controls (arrows, close, counter, fullscreen)
+     100 — nav preview panels
+     101 — nav preview close btn */
+}
+
+/* ============================================================
    RESET & BASE
    ============================================================ */
 *, *::before, *::after {
@@ -37,7 +68,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -55,14 +86,14 @@ a {
   width: 100%; height: 100%;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 400ms ease, visibility 0s 400ms;
+  transition: opacity var(--transition-page) ease, visibility 0s var(--transition-page);
   overflow-y: auto;
   overflow-x: hidden;
 }
 .page.active {
   opacity: 1;
   visibility: visible;
-  transition: opacity 400ms ease, visibility 0s 0s;
+  transition: opacity var(--transition-page) ease, visibility 0s 0s;
   z-index: 1;
 }
 
@@ -70,8 +101,8 @@ a {
    PAGE 1 — LANDING
    ============================================================ */
 .landing {
-  background: #fff;
-  color: #000;
+  background: var(--color-bg);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,17 +121,12 @@ a {
 }
 .landing__portrait {
   position: absolute;
-  max-height: 200px;
-  max-width: 200px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 200ms ease, visibility 0s 200ms;
+  left: 2%;
+  bottom: 0;
+  height: 75vh;
+  width: auto;
+  z-index: 2;
   pointer-events: none;
-}
-.landing__portrait--visible {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 200ms ease, visibility 0s 0s;
 }
 .landing__title {
   font-weight: 400;
@@ -116,7 +142,7 @@ a {
   display: block;
   font-weight: 400;
   font-size: 14px;
-  color: #000;
+  color: var(--color-text);
   line-height: 1.8;
 }
 .landing__contact a:hover {
@@ -165,8 +191,8 @@ a {
   max-height: 80vh;
   overflow-y: auto;
   background: transparent;
-  color: #000;
-  font-family: 'Code Saver', monospace;
+  color: var(--color-text);
+  font-family: var(--font-main);
   font-size: 11px;
   line-height: 1.7;
   padding: 0;
@@ -188,7 +214,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.6;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--color-text);
   padding-bottom: 14px;
 }
 .quiz__buttons {
@@ -198,14 +224,14 @@ a {
 .quiz__buttons button {
   width: 100%;
   padding: 12px 0;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   font-size: 10px;
   letter-spacing: 0.06em;
   line-height: 1.5;
   border: none;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid var(--color-border);
   background: transparent;
-  color: #000;
+  color: var(--color-text);
   cursor: pointer;
   text-align: left;
   transition: padding-left 200ms ease, opacity 200ms ease;
@@ -247,7 +273,7 @@ a {
   opacity: 0;
   transition: opacity 400ms ease;
   font-style: italic;
-  color: #444;
+  color: var(--color-muted);
 }
 .quiz__feedback--visible { opacity: 1; }
 .quiz__skip-hint {
@@ -256,7 +282,7 @@ a {
   margin-top: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #999;
+  color: var(--color-faint);
   transition: opacity 400ms ease;
   cursor: pointer;
 }
@@ -281,19 +307,19 @@ a {
   text-align: left;
   margin-bottom: 24px;
   line-height: 1.6;
-  color: #444;
+  color: var(--color-muted);
 }
 .quiz__profile-link {
   display: inline-block;
   padding: 10px 0;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   border: none;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--color-text);
   background: transparent;
-  color: #000;
+  color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
   transition: padding-left 200ms ease;
@@ -306,15 +332,15 @@ a {
   left: 50%;
   transform: translateX(-50%);
   top: 28vh;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   background: transparent;
-  color: #000;
+  color: var(--color-text);
   border: none;
-  border-bottom: 1.5px solid #000;
+  border-bottom: 1.5px solid var(--color-text);
   padding: 8px 0;
   cursor: pointer;
   z-index: 3;
@@ -324,12 +350,12 @@ a {
 .quiz__start-btn:hover { opacity: 0.5; }
 .quiz__restart-btn {
   margin-top: 6px;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   font-size: 10px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(0,0,0,0.3);
-  color: #000;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text);
   cursor: pointer;
   padding: 6px 0;
   transition: opacity 200ms;
@@ -340,8 +366,8 @@ a {
    PAGE 2 — WORK
    ============================================================ */
 .work {
-  background: #fff;
-  color: #000;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 .work__layout {
   display: flex;
@@ -355,7 +381,7 @@ a {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: #000;
+  color: var(--color-text);
   z-index: 10;
 }
 .work__back:hover { text-decoration: underline; }
@@ -502,8 +528,8 @@ a {
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
-  font-family: 'Code Saver', monospace;
-  color: #000;
+  font-family: var(--font-main);
+  color: var(--color-text);
   cursor: pointer;
   opacity: 0.3;
   z-index: 52;
@@ -520,8 +546,8 @@ a {
   top: 24px;
   right: 24px;
   font-size: 18px;
-  font-family: 'Code Saver', monospace;
-  color: #000;
+  font-family: var(--font-main);
+  color: var(--color-text);
   cursor: pointer;
   opacity: 0.3;
   z-index: 52;
@@ -534,10 +560,10 @@ a {
   bottom: 24px;
   right: 24px;
   font-size: 11px;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #000;
+  color: var(--color-text);
   cursor: pointer;
   opacity: 0.3;
   z-index: 52;
@@ -551,9 +577,9 @@ a {
   left: 50%;
   transform: translateX(-50%);
   font-size: 10px;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   letter-spacing: 0.15em;
-  color: #000;
+  color: var(--color-text);
   opacity: 0.4;
   z-index: 52;
   display: none;
@@ -562,7 +588,7 @@ a {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(255,255,255,0.95);
+  background: var(--color-backdrop);
   z-index: 49;
   display: none;
 }
@@ -578,7 +604,7 @@ a {
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  background: #fff;
+  background: var(--color-bg);
   padding: 36px 48px 48px;
   text-align: center;
   z-index: 100;
@@ -600,12 +626,12 @@ a {
   font-size: 18px;
   cursor: pointer;
   opacity: 0.4;
-  font-family: 'Code Saver', monospace;
+  font-family: var(--font-main);
   display: none;
   z-index: 101;
   background: none;
   border: none;
-  color: #000;
+  color: var(--color-text);
 }
 .nav-preview__close:hover { opacity: 1; }
 .nav-preview--locked .nav-preview__close { display: block; }
@@ -613,7 +639,7 @@ a {
 .nav-preview a {
   font-size: 13px;
   font-weight: 400;
-  color: #000;
+  color: var(--color-text);
   line-height: 1.8;
 }
 .nav-preview p + p { margin-top: 16px; }
@@ -638,41 +664,6 @@ a {
 }
 
 /* ============================================================
-   PAGE 3 — MEDIA
-   ============================================================ */
-.media {
-  background: #fff;
-  color: #000;
-}
-.media__back {
-  position: absolute;
-  top: 28px;
-  left: 32px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #000;
-  z-index: 10;
-}
-.media__back:hover { text-decoration: underline; }
-.media__title {
-  font-weight: 700;
-  font-size: 32px;
-  padding: 80px 32px 40px 32px;
-}
-.media__links {
-  list-style: none;
-  padding: 0 32px 60px 32px;
-}
-.media__links li {
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 3;
-}
-.media__links li a:hover { text-decoration: underline; }
-
-/* ============================================================
    MOBILE — max 768px
    ============================================================ */
 @media (max-width: 768px) {
@@ -686,7 +677,10 @@ a {
   .landing__contact { margin-top: 24px; }
   .landing__contact a { font-size: 12px; }
   .landing__hint { bottom: calc(30vh + 10px) !important; }
-  .landing__portrait { display: none !important; }
+  .landing__portrait {
+    height: 55vh;
+    left: -5%;
+  }
 
   .character {
     height: 55vh;
@@ -768,10 +762,6 @@ a {
   .nav-preview--contact a { font-size: 13px; }
   .nav-preview--media a { font-size: 12px; }
 
-  .media__back { top: 20px; left: 20px; }
-  .media__title { font-size: 24px; padding: 60px 20px 24px 20px; }
-  .media__links { padding: 0 20px 60px 20px; }
-  .media__links li { font-size: 12px; line-height: 2.6; }
 }
 
 @media (max-width: 400px) {
@@ -803,7 +793,7 @@ a {
     </nav>
   </section>
   <div class="landing__hint" aria-hidden="true">ENTER</div>
-  <img src="images/titou-portrait.png" alt="Titou Granier portrait" class="landing__portrait" id="js-portrait" aria-hidden="true">
+  <img src="images/titou-portrait.png" alt="Titou Granier portrait" class="landing__portrait" id="js-portrait">
   <div class="character" id="js-character-wrap" aria-hidden="true">
     <img src="images/character.png" alt="" class="character__sprite" id="js-character-sprite">
   </div>
@@ -855,7 +845,6 @@ a {
         <li class="project-list__item" data-video="images/excalibur-games/video.mp4" role="listitem">Excalibur / Games</li>
         <li class="project-list__item" data-images="images/cover-music-album/01.jpg" role="listitem">Cover Music Album</li>
         <li class="project-list__item" data-images="images/playing-cards/01.jpg,images/playing-cards/02.jpg,images/playing-cards/03.jpg,images/playing-cards/04.jpg" role="listitem">Playing Cards</li>
-        <li class="project-list__item" role="listitem">And More</li>
       </ul>
     </div>
 
@@ -864,7 +853,7 @@ a {
         <li class="nav-list__item" data-nav="about" role="listitem">About</li>
         <li class="nav-list__item" data-nav="contact" role="listitem">Contact</li>
         <li class="nav-list__item nav-list__item--cv" data-nav="cv" role="listitem">Curriculum Vitae<br><a href="./cv.pdf" download="CV Titou Granier.pdf" target="_blank" class="nav-list__cv-download" rel="noopener">Download &mdash; PDF</a></li>
-        <li class="nav-list__item" data-nav="media" role="listitem">Media</li>
+        <li class="nav-list__item" data-nav="media" role="listitem" aria-label="Media coverage">Media</li>
         <li class="nav-list__item" data-nav="clients" role="listitem">Clients</li>
       </ul>
     </nav>
@@ -901,33 +890,14 @@ a {
 
   <article class="nav-preview" id="preview-clients" aria-label="Client list">
     <button class="nav-preview__close" aria-label="Close panel">&times;</button>
-    <p>Client list coming soon.</p>
+    <p>LVMH &mdash; Balmain &mdash; KPMG &mdash; Renault &mdash; Binance &mdash; Arab Bank Switzerland &mdash; Institut Montaigne &mdash; Artverse &mdash; Ledger &mdash; Yellow Korner &mdash; NFT Factory &mdash; Paris Photo</p>
   </article>
 
   <article class="nav-preview nav-preview--media" id="preview-media" aria-label="Media coverage">
     <button class="nav-preview__close" aria-label="Close panel">&times;</button>
-    <a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank" rel="noopener">&mdash; Le Monde &mdash; NFT Factory</a>
-    <a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank" rel="noopener">&mdash; Les Num&eacute;riques &mdash; NFT Factory Opening</a>
-    <a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank" rel="noopener">&mdash; 1703 Art &mdash; French Galleries &amp; NFT</a>
-    <a href="https://www.tiktok.com/@nftfactoryparis" target="_blank" rel="noopener">&mdash; TikTok &mdash; NFT Factory Paris</a>
-    <a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank" rel="noopener">&mdash; Capital &mdash; NFT Factory Reinvents Itself</a>
-    <a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank" rel="noopener">&mdash; Le Parisien &mdash; Digital Art in Paris</a>
   </article>
 </section>
 
-<!-- PAGE 3 — MEDIA -->
-<section id="page-media" class="page media" aria-label="Media coverage">
-  <a href="#" class="media__back" id="js-media-back" aria-label="Back to portfolio">&larr; Work</a>
-  <h1 class="media__title">Media</h1>
-  <ul class="media__links" role="list">
-    <li><a href="https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html" target="_blank" rel="noopener">&mdash; Le Monde &mdash; NFT Factory</a></li>
-    <li><a href="https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html" target="_blank" rel="noopener">&mdash; Les Num&eacute;riques &mdash; NFT Factory Opening</a></li>
-    <li><a href="https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/" target="_blank" rel="noopener">&mdash; 1703 Art &mdash; French Galleries &amp; NFT</a></li>
-    <li><a href="https://www.tiktok.com/@nftfactoryparis" target="_blank" rel="noopener">&mdash; TikTok &mdash; NFT Factory Paris</a></li>
-    <li><a href="https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380" target="_blank" rel="noopener">&mdash; Capital &mdash; NFT Factory Reinvents Itself</a></li>
-    <li><a href="https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php" target="_blank" rel="noopener">&mdash; Le Parisien &mdash; Digital Art in Paris</a></li>
-  </ul>
-</section>
 
 <!-- ============================================================
      JAVASCRIPT
@@ -1004,7 +974,6 @@ a {
     for (let i = 0; i < pages.length; i++) pages[i].classList.remove('active');
     setTimeout(() => $(targetId).classList.add('active'), PAGE_SWITCH_MS);
   }
-  window.goToPage = goToPage;
 
   /* Landing page click → work */
   $('page-landing').addEventListener('click', (e) => {
@@ -1014,7 +983,6 @@ a {
 
   /* Back links */
   $('js-back-link').addEventListener('click', (e) => { e.preventDefault(); goToPage('page-landing'); });
-  $('js-media-back').addEventListener('click', (e) => { e.preventDefault(); goToPage('page-work'); });
 
   /* ==========================================================
      GALLERY
@@ -1063,6 +1031,7 @@ a {
     img.src = galleryImages[galleryIndex];
     img.alt = galleryAlt;
     img.style.display = 'block';
+    img.onerror = () => { img.style.display = 'none'; };
     if (galleryFullscreen) {
       img.style.maxWidth = isMobile.matches ? '98vw' : '95vw';
       img.style.maxHeight = isMobile.matches ? '98vh' : '95vh';
@@ -1134,6 +1103,7 @@ a {
     img.style.maxWidth = '45vw';
     img.style.maxHeight = '70vh';
     img.style.display = 'block';
+    img.onerror = () => { img.style.display = 'none'; };
     overlay.innerHTML = '';
     overlay.appendChild(img);
   }
@@ -1299,21 +1269,31 @@ a {
   });
 
   /* ==========================================================
-     LANDING — portrait hover
+     MEDIA LINKS (single source of truth)
      ========================================================== */
-  if (nameEl && portraitEl) {
-    nameEl.addEventListener('mouseenter', () => {
-      const rect = nameEl.getBoundingClientRect();
-      const imgW = Math.min(portraitEl.naturalWidth, 200) || 200;
-      const imgH = Math.min(portraitEl.naturalHeight, 200) || 200;
-      portraitEl.style.left = (rect.left + rect.width / 2 - imgW / 2) + 'px';
-      portraitEl.style.top = (rect.top - imgH - 16) + 'px';
-      portraitEl.classList.add('landing__portrait--visible');
+  const MEDIA_LINKS = [
+    { label: '\u2014 Le Monde \u2014 NFT Factory', href: 'https://www.lemonde.fr/culture/article/2022/03/22/la-nft-factory-futur-lieu-de-convergence-du-secteur-a-paris_6118621_3246.html' },
+    { label: '\u2014 Les Num\u00e9riques \u2014 NFT Factory Opening', href: 'https://www.lesnumeriques.com/pro/la-nft-factory-ouvre-ses-portes-a-paris-face-a-beaubourg-n194069.html' },
+    { label: '\u2014 1703 Art \u2014 French Galleries & NFT', href: 'https://1703.art/les-galeries-francaises-semparent-du-numerique-et-des-nft/' },
+    { label: '\u2014 TikTok \u2014 NFT Factory Paris', href: 'https://www.tiktok.com/@nftfactoryparis' },
+    { label: '\u2014 Capital \u2014 NFT Factory Reinvents Itself', href: 'https://www.capital.fr/crypto/avant-la-fermeture-du-centre-pompidou-la-nft-factory-quitte-beaubourg-et-se-reinvente-1494380' },
+    { label: '\u2014 Le Parisien \u2014 Digital Art in Paris', href: 'https://www.leparisien.fr/paris-75/on-devient-une-capitale-de-lart-digital-a-paris-les-nft-ont-reussi-a-simposer-23-02-2024-3BXQF26ZHBDSJM7XCN7JUG3JDY.php' }
+  ];
+  (function populateMedia() {
+    const container = $('preview-media');
+    MEDIA_LINKS.forEach((link) => {
+      const a = document.createElement('a');
+      a.href = link.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = link.label;
+      container.appendChild(a);
     });
-    nameEl.addEventListener('mouseleave', () => {
-      portraitEl.classList.remove('landing__portrait--visible');
-    });
-  }
+  })();
+
+  /* ==========================================================
+     LANDING — portrait (always visible, no hover logic needed)
+     ========================================================== */
 
   /* ==========================================================
      KEYBOARD
@@ -1517,28 +1497,34 @@ a {
   /* Speech functions */
   function speakQuestion(text, cb) {
     if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-US';
-    utter.rate = 1.05;
-    utter.volume = 0.85;
-    if (questionVoice) utter.voice = questionVoice;
-    utter.onend = () => { if (cb) cb(); };
-    window.speechSynthesis.speak(utter);
+    try {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'en-US';
+      utter.rate = 1.05;
+      utter.volume = 0.85;
+      if (questionVoice) utter.voice = questionVoice;
+      utter.onend = () => { if (cb) cb(); };
+      utter.onerror = () => { if (cb) cb(); };
+      window.speechSynthesis.speak(utter);
+    } catch (e) { if (cb) cb(); }
   }
 
   function speak(text, cb) {
     if (!('speechSynthesis' in window)) { if (cb) cb(); return; }
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-GB';
-    utter.rate = 1.1;
-    utter.volume = 0.95;
-    if (reactionVoice) utter.voice = reactionVoice;
-    startMouthAnim();
-    utter.onend = () => { stopMouthAnim(); if (cb) cb(); };
-    mouthTimer = setTimeout(stopMouthAnim, MOUTH_TIMEOUT);
-    window.speechSynthesis.speak(utter);
+    try {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'en-GB';
+      utter.rate = 1.1;
+      utter.volume = 0.95;
+      if (reactionVoice) utter.voice = reactionVoice;
+      startMouthAnim();
+      utter.onend = () => { stopMouthAnim(); if (cb) cb(); };
+      utter.onerror = () => { stopMouthAnim(); if (cb) cb(); };
+      mouthTimer = setTimeout(stopMouthAnim, MOUTH_TIMEOUT);
+      window.speechSynthesis.speak(utter);
+    } catch (e) { stopMouthAnim(); if (cb) cb(); }
   }
 
   /* Quiz start */
@@ -1634,7 +1620,11 @@ a {
 
     const msgDiv = document.createElement('div');
     msgDiv.className = 'quiz__final-msg';
-    msgDiv.innerHTML = msg.replace('\n', '<br>');
+    const parts = msg.split('\n');
+    parts.forEach((part, i) => {
+      msgDiv.appendChild(document.createTextNode(part));
+      if (i < parts.length - 1) msgDiv.appendChild(document.createElement('br'));
+    });
     quizButtons.appendChild(msgDiv);
 
     const profileLink = document.createElement('a');
@@ -1684,6 +1674,26 @@ a {
     quiz.canSkip = false;
     showQuestion();
   }
+
+  /* ==========================================================
+     SELF-TESTS (run in dev, silent in prod)
+     ========================================================== */
+  (function runTests() {
+    const assert = (cond, msg) => { if (!cond) console.warn('[TEST FAIL] ' + msg); };
+    assert(QUIZ_DATA.length === 10, 'Quiz should have 10 questions');
+    QUIZ_DATA.forEach((q, i) => {
+      assert(q.answers.length === 4, 'Q' + (i + 1) + ' should have 4 answers');
+      assert(q.answers.every((a) => a.score >= 0 && a.score <= 10), 'Q' + (i + 1) + ' scores in range 0-10');
+      assert(q.q && q.q.length > 0, 'Q' + (i + 1) + ' should have question text');
+      assert(q.answers.every((a) => a.reaction && a.reaction.length > 0), 'Q' + (i + 1) + ' answers should have reactions');
+    });
+    assert(document.querySelectorAll('[data-images]').length > 0, 'Projects with images should exist');
+    assert(document.querySelectorAll('.project-list__item, .project-group__item').length > 0, 'Project items should exist');
+    assert(document.querySelector('.nav-preview--cv img'), 'CV preview image should exist');
+    assert(document.querySelector('#preview-clients'), 'Clients preview should exist');
+    assert(MEDIA_LINKS.length > 0, 'Media links array should not be empty');
+    assert(document.querySelector('#preview-media').querySelectorAll('a').length === MEDIA_LINKS.length, 'Media links should be rendered');
+  })();
 
 })();
 </script>
