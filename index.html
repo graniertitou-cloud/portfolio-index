@@ -190,7 +190,10 @@ a {
 .character__sprite {
   height: 100%;
   width: auto;
-  display: block;
+}
+/* Welcome bubble – hidden on desktop, shown on mobile only */
+.character__welcome {
+  display: none;
 }
 
 /* ============================================================
@@ -730,50 +733,32 @@ a {
   }
 
   .character {
-    height: 55vh;
-    right: -5%;
+    height: 35vh;
+    right: 5%;
     left: auto;
     transform: none;
     bottom: 0;
   }
-  .quiz-bubble {
-    position: fixed;
-    left: 5%;
-    right: 5%;
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-50%);
-    width: 90vw;
-    max-width: 90vw;
-    max-height: 70vh;
-    overflow-y: auto;
-    font-size: 12px;
-    z-index: 100;
-    background: var(--color-backdrop);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 24px 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-  }
-  .quiz__buttons button {
-    font-size: 11px;
-    padding: 12px 0;
-  }
-  .quiz__start-btn {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    transform: none;
+  .character__welcome {
     display: block;
-    margin: 20px auto 0;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 8px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: var(--font-main);
+    font-size: 10px;
+    letter-spacing: 0.05em;
     white-space: nowrap;
-    font-size: 11px;
-    font-weight: 700;
-    z-index: 3;
-    text-align: center;
+    color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
+  /* Hide quiz entirely on mobile */
+  .quiz-bubble { display: none !important; }
+  .quiz__start-btn { display: none !important; }
   .landing .landing__content { margin-top: 0; padding-top: 5vh; }
 
   .work__layout { flex-direction: column; }
@@ -827,9 +812,8 @@ a {
     max-width: 55vw;
     top: 2vh;
   }
-  .quiz__start-btn {
-    font-size: 9px;
-  }
+  .character { height: 28vh; }
+  .character__welcome { font-size: 9px; }
   .project-list__item { font-size: 11px; line-height: 2; }
   .nav-list__item { font-size: 12px; }
 }
@@ -859,6 +843,7 @@ a {
   <img src="images/titou-portrait.png" alt="Titou Granier portrait" class="landing__portrait" id="js-portrait" aria-hidden="true">
   <div class="character" id="js-character-wrap" aria-hidden="true">
     <img src="images/character.png" alt="" class="character__sprite" id="js-character-sprite">
+    <div class="character__welcome" aria-hidden="true">Welcome! Tap ENTER to explore&nbsp;👋</div>
   </div>
   <button class="quiz__start-btn" id="js-quiz-start" aria-label="Start compatibility quiz">Do you want to work with me?</button>
   <div class="quiz-bubble" id="js-quiz-bubble" role="dialog" aria-label="Compatibility quiz">
