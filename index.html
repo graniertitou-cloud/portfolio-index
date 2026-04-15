@@ -680,6 +680,33 @@ a {
 /* ============================================================
    MOBILE — max 768px
    ============================================================ */
+/* ── Responsive: large tablets / small laptops ── */
+@media (max-width: 1200px) {
+  .landing__portrait {
+    max-height: 22vh;
+    max-width: 20vw;
+    bottom: calc(50% + 85px);
+  }
+  .quiz__start-btn {
+    left: 8%;
+    font-size: 11px;
+  }
+}
+
+/* ── Responsive: tablets ── */
+@media (max-width: 1024px) {
+  .landing__portrait {
+    max-height: 20vh;
+    max-width: 24vw;
+    bottom: calc(50% + 75px);
+  }
+  .quiz__start-btn {
+    left: 6%;
+    font-size: 10px;
+    transform: translateY(-100%);
+  }
+}
+
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
@@ -692,11 +719,14 @@ a {
   .landing__contact a { font-size: 12px; }
   .landing__hint { bottom: calc(30vh + 10px) !important; }
   .landing__portrait {
-    height: 40vh;
+    max-height: 25vh;
+    max-width: 50vw;
+    height: auto;
+    width: auto;
     left: 50%;
     transform: translateX(-50%);
     bottom: auto;
-    top: 5vh;
+    top: 3vh;
   }
 
   .character {
@@ -784,6 +814,15 @@ a {
 @media (max-width: 400px) {
   .landing__name { font-size: 22px; }
   .landing__title { font-size: 10px; }
+  .landing__portrait {
+    max-height: 20vh;
+    max-width: 55vw;
+    top: 2vh;
+  }
+  .quiz__start-btn {
+    font-size: 8px;
+    top: 3vh;
+  }
   .project-list__item { font-size: 11px; line-height: 2; }
   .nav-list__item { font-size: 12px; }
 }
