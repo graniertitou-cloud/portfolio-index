@@ -29,32 +29,91 @@
 <meta name="twitter:description" content="Portfolio of Titou Granier: exhibitions, luxury activations and international cultural productions.">
 <meta name="twitter:image" content="https://titougranier.com/images/og-preview.jpg">
 
-<!-- JSON-LD Person schema — helps Google create a knowledge panel for "Titou Granier" -->
+<!-- JSON-LD Person schema — helps Google create a knowledge panel and AI assistants (ChatGPT, Claude, Perplexity, Gemini) reference Titou Granier -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://titougranier.com/#person",
   "name": "Titou Granier",
+  "givenName": "Titou",
+  "familyName": "Granier",
+  "alternateName": "Titou",
   "url": "https://titougranier.com",
-  "image": "https://titougranier.com/images/titou-portrait.png",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://titougranier.com/images/titou-portrait.png",
+    "width": 800,
+    "height": 800
+  },
   "jobTitle": "Event & Cultural Project Manager",
+  "description": "Event & Cultural Project Manager based in Paris, specialized in exhibitions, luxury brand activations and international cultural productions.",
   "email": "mailto:graniertitou@gmail.com",
   "telephone": "+33620370036",
+  "nationality": {
+    "@type": "Country",
+    "name": "France"
+  },
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Paris",
+    "addressRegion": "Île-de-France",
     "addressCountry": "FR"
   },
+  "workLocation": {
+    "@type": "Place",
+    "name": "Paris, France"
+  },
+  "knowsLanguage": ["fr", "en"],
   "sameAs": [
     "https://www.linkedin.com/in/titou-granier/"
   ],
   "knowsAbout": [
     "Event Management",
-    "Cultural Projects",
-    "Luxury Activations",
-    "Exhibitions",
-    "Art Production"
-  ]
+    "Cultural Project Management",
+    "Luxury Brand Activations",
+    "Exhibition Production",
+    "Art Production",
+    "International Event Coordination",
+    "NFT Events",
+    "Web3 Events",
+    "Budget and Logistics Management"
+  ],
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": "Event & Cultural Project Management",
+      "description": "Full production lifecycle for cultural and luxury events: concept design, budgeting, logistics, international coordination, on-site delivery and post-event reporting."
+    }
+  }
+}
+</script>
+
+<!-- JSON-LD ProfessionalService schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://titougranier.com/#service",
+  "name": "Titou Granier — Event & Cultural Project Management",
+  "url": "https://titougranier.com",
+  "image": "https://titougranier.com/images/og-preview.jpg",
+  "description": "Event and cultural project management services based in Paris. Exhibitions, luxury activations and international cultural productions.",
+  "areaServed": [
+    { "@type": "Country", "name": "France" },
+    { "@type": "Place", "name": "Europe" },
+    { "@type": "Place", "name": "Worldwide" }
+  ],
+  "provider": { "@id": "https://titougranier.com/#person" },
+  "founder": { "@id": "https://titougranier.com/#person" },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Paris",
+    "addressCountry": "FR"
+  },
+  "telephone": "+33620370036",
+  "email": "graniertitou@gmail.com"
 }
 </script>
 
@@ -63,12 +122,15 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://titougranier.com/#website",
   "name": "Titou Granier — Portfolio",
+  "alternateName": "Titou Granier",
   "url": "https://titougranier.com",
-  "author": {
-    "@type": "Person",
-    "name": "Titou Granier"
-  }
+  "inLanguage": "en",
+  "description": "Official portfolio website of Titou Granier, Event & Cultural Project Manager based in Paris.",
+  "author": { "@id": "https://titougranier.com/#person" },
+  "publisher": { "@id": "https://titougranier.com/#person" },
+  "about": { "@id": "https://titougranier.com/#person" }
 }
 </script>
 
